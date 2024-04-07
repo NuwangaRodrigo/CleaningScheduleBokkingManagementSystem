@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34601.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleaningScheduleBokkingManagementSystem", "CleaningScheduleBokkingManagementSystem\CleaningScheduleBokkingManagementSystem.csproj", "{FCFA5306-E2A5-45DD-B044-2501430F039C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCFA5306-E2A5-45DD-B044-2501430F039C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCFA5306-E2A5-45DD-B044-2501430F039C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCFA5306-E2A5-45DD-B044-2501430F039C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCFA5306-E2A5-45DD-B044-2501430F039C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9E96E95-F932-487E-90FF-FE69F10CC96A}
+	EndGlobalSection
+EndGlobal

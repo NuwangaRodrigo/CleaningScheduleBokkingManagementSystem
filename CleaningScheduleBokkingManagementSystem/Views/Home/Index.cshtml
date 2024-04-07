@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div id="calendar">
+    
+</div>
+
+<div id="MyModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><span id="scheduleTitle"></span></h4>
+            </div>
+            <div class="modal-body">
+                <button id="btnDelete" class="btn btn-default btn-sm pull-right">
+                    <span class="glyphicon glyphicon-remove"></span>Remove
+                </button>
+                <button id="btnEdit" class="btn btn-default btn-sm pull-right"  style="margin-right:5px;">
+                    <span class="glyphicon glyphicon-remove"></span>Edit
+                </button>
+                <p id="pDeatils"></p>
+            </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+        </div>
+    </div>
+</div>
+</div>
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+@section Scripts{
+
+
+    <!-- Then include other scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
+
+}
+    <script>
+        $(document).ready(function () {
+            var events = [];
+            var selectedEvent = null;
+            $.ajax({
+                type: "GET",
+                url: "/home/GetInitialSchedules",
+                success: function (data) {
+
+                    $.each(data, function (i, v) {
+                        events.push({
+                            title: 'Slot ' + v.SlotNumber + ' - ' + v.AssignedPersonName,
+                            description: v.AssignedPersonName,
+                            start: moment(v.Start_Date),
+                            //   end:  moment(v.End_Date) ,
+                            color: v.Theme_Colour,
+                            allDay: v.Is_FullDay
+                        });
+                    });
+                    GenerateCalendar(events);
+                },
+                error: function (error) {
+                    alert('Failed to fetch data.');
+                }
+            });
+            //FetchScheduleAndRenderCalendar();
+            //function FetchScheduleAndRenderCalendar() {
+            //    var events = [];
+            //    $.ajax({
+            //    type: "GET",
+            //    url: "/home/GetInitialSchedules",
+            //    success: function (data) {
+
+            //        $.each(data, function (i, v) {
+            //            events.push({
+            //                title: 'Slot ' + v.SlotNumber + ' - ' + v.AssignedPersonName,
+            //                description: v.AssignedPersonName,
+            //                start: moment(v.Start_Date),
+            //                //   end:  moment(v.End_Date) ,
+            //                color: v.Theme_Colour,
+            //                allDay: v.Is_FullDay
+            //            });
+            //        });
+            //        GenerateCalendar(events);
+            //    },
+            //    error: function (error) {
+            //        alert('Failed to fetch data.');
+            //    }
+            //});
+
+            //}
+            function GenerateCalendar(events) {
+                $('#calendar').fullCalendar('destroy');
+                $('#calendar').fullCalendar({
+                    contentHeight: 500,
+
+                    defaultDate: new Date(),
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev,next,today',
+                        center: 'title,',
+                        right: 'month,basicWeek,listMonth,dayGridWeek'
+                    },
+                    eventLimit: true,
+                    eventColor: '#378006',
+                    events: events,
+                    eventClick: function (calEvent, jsEvent, view) {
+                      // selectedEvent = calEvent;
+                        console.log("Event clicked:", calEvent);
+                        $('#MyModal #scheduleTitle').text(calEvent.title);
+                        var $description = $('<div/>');
+                        $description.append($('<p/>').html('<b>Start Date:</b>' + calEvent.start.format("DD-MM-YYYY HH-mm-a")));
+                        $description.append($('<p/>').html('<b>Assigned Person Name:</b>' + calEvent.description));
+
+                        $('#MyModal #pDeatils').empty().html($description);
+                        $('#MyModal').modal();
+                    }
+                });
+            }
+            //$('#btnEdit').click(function () {
+
+            //})
+            //$('#btnDelete').click(function () {
+            //    if (selectedEvent != null && confirm('Are you sure?')) {
+            //        $.ajax ( {
+            //            type: "POST",
+            //            url: '/home/DeleteSchedule',
+            //            success: function (data) {
+            //                if (data.status) {
+            //                    //refresh calender
+            //                    //FetchScheduleAndRenderCalendar();
+            //                }
+            //            },
+            //            error: function () {
+            //                alert('Failed');
+            //            }
+            //        }
+            //    },
+            //    error: function (error) {
+            //      alert('Failed to fetch data.');
+            //   }
+            //})
+        });
+    </script>
+    
