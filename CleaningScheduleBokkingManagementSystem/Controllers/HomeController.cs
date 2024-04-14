@@ -17,7 +17,7 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
         {
             if (Session["Resident_Id"] != null)
             {
-                // Retrieve the Resident_Id from the session
+               
                 residentId = (int)Session["Resident_Id"];
 
             }

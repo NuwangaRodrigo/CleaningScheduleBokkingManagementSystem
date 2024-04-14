@@ -55,11 +55,11 @@
         }
 
         #calendar {
-            background-color: #1b1b1b; /* Calendar background color */
-            color: white; /* Calendar text color */
-            margin-top: 10px; /* Add some gap between calendar and container */
-            border-radius: 10px; /* Add slight border radius to calendar */
-            padding: 10px; /* Add padding to the calendar */
+            background-color: #1b1b1b; 
+            color: white; 
+            margin-top: 10px; 
+            border-radius: 10px; 
+            padding: 10px;
         }
 
         .menu-container {
@@ -150,7 +150,7 @@
             </div>
     </div>
 
-    <!-- Your modal and other HTML content here -->
+   
 
     <div id="MyModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -280,7 +280,7 @@
 
 
             $('#btnDelete').click(function () {
-                // Uncomment the code inside the event handler
+              
                 if (selectedEvent != null && confirm('Are you sure?')) {
                     $.ajax({
                         type: "POST",
@@ -292,7 +292,7 @@
                                 // Refresh calendar
                                 FetchScheduleAndRenderCalendar();
                                 $(document).ready(function () {
-                                    // Show modal when the page loads
+                                 
                                     $('#MyModal').modal('hide');
                                 });
                             }
