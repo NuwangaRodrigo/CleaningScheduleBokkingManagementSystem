@@ -1,157 +1,293 @@
-﻿
-@{
-    ViewBag.Title = "index";
-}
-
-<h2>Book Now Your Slot</h2>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<div id="calendar"></div>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modal Example</title>
+    <title>Schedule Planing</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background-color: #1b1b1b;
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 650px;
+            width: 1200px;
+        }
+
+        .navbar {
+            background-color: #1b1b1b; /* Navbar background color */
+        }
+
+        .navbar-nav li a {
+            color: white !important; /* Navbar link color */
+        }
+
+            .navbar-nav li a:hover {
+                color: #337ab7 !important; /* Navbar link color on hover */
+            }
+
+        .navbar-nav li {
+            display: #1b1b1b;
+            text-align: center;
+            padding: 10px;
+        }
+
+            .navbar-nav li span {
+                font-size: 24px;
+            }
+
+        #calendar-container {
+            background-color: black;
+            padding: 10px;
+            border-radius: 10px;
+            margin-right: 10px;
+            margin-top: 10px;
+            width: 1050px;
+            
+        }
+
+        #calendar {
+            background-color: #1b1b1b; /* Calendar background color */
+            color: white; /* Calendar text color */
+            margin-top: 10px; /* Add some gap between calendar and container */
+            border-radius: 10px; /* Add slight border radius to calendar */
+            padding: 10px; /* Add padding to the calendar */
+        }
+
+        .menu-container {
+            background-color: #1b1b1b; /* Background color for the menu container */
+            padding: 10px; /* Add padding to the menu container */
+            border-radius: 10px; /* Add border radius to the menu container */
+
+            width: 120px; /* Set the width of the menu container */
+            height: 650px;
+            align-content: flex-end;
+        }
+
+        .profile-photo {
+            width: 100px; /* Adjust the size of the profile photo */
+            height: 100px;
+            border-radius: 50%; /* Make it circular */
+            margin-bottom: 20px;
+            text-align: center; /* Add space below the photo */
+        }
+
+        .profile-name {
+            margin-bottom: 20px; /* Add space below the name */
+            font-size: 20px;
+            color: white;
+            text-align: left; /* Text color */
+        }
+
+        .menu-nav {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0;
+            margin: 0;
+            text-align: center; /* Center align menu items */
+        }
+
+        .nav-item {
+            margin-bottom: 10px; /* Add space between items */
+        }
+
+        .nav-link {
+            color: white !important; /* Link color */
+        }
+
+            .nav-link:hover {
+                color: #337ab7 !important; /* Link color on hover */
+            }
+    </style>
 </head>
 <body>
-</body>
-</html>
-<div id="MyModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><span id="scheduleTitle"></span></h4>
-            </div>
-            <div class="modal-body">
-                <button id="btnDelete" class="btn btn-default btn-sm pull-right">
-                    <span class="glyphicon glyphicon-remove"></span>Remove
-                </button>
-                <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right:5px;">
-                    <span class="glyphicon glyphicon-remove"></span>Choose a slot
-                </button>
-                <p id="pDeatils"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    
+        <div class="container-fluid">
+            <div class="row">
+                
+                <div class="col-md-2">
+                    <div class="menu-container">
+                        
+                        <div class="text-left">
+                            <img src="~/Images/ProfilePhoto.png" alt="Profile Photo" class="profile-photo">
+                            <br /><br />
+                        </div>
+                        <div class="profile-name">John Doe</div>
+                        <br /><br /><br /><br />
+                        <ul class="menu-nav">
+                            <li class="nav-item" align="left">
+                                @Html.ActionLink("Register", "Register", "Home", null, new { @class = "nav-link" })
+                            </li>
+                            <br />
+                            <li class="nav-item" align="left">
+                                @Html.ActionLink("Group", "Group", "Home", null, new { @class = "nav-link" })
+                            </li>
+                            <br />
 
+                            <li class="nav-item" align="left">
+                                @Html.ActionLink("Log Out", "LogOut", "Home", null, new { @class = "nav-link" })
+                            </li>
+                            <br />
+
+                        </ul>
+                    </div>
+                </div>
+                <br />
+                <h2 class="text-white">Book Now Your Slot</h2>
+                <div class="col-md-9">
+                    <div id="calendar-container">
+
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Your modal and other HTML content here -->
+
+    <div id="MyModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal" style="background-color: #1b1b1b; color: white;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><span id="scheduleTitle"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <button id="btnDelete" class="btn btn-danger btn-sm pull-right">
+                        <span class="glyphicon glyphicon-remove"></span> Remove
+                    </button>
+                    <button id="btnEdit" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;">
+                        <span class="glyphicon glyphicon-pencil"></span> Choose a slot
+                    </button>
+                    <p id="pDeatils"></p>
+                </div>
+                <div class="modal-footer" style="background-color: #1b1b1b;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="color: #1b1b1b;">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
-<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
-@section Scripts{
 
 
-    <!-- Then include other scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
 
-}
-<script>
-    $(document).ready(function () {
-        var events = [];
-        var selectedEvent = null;
-        
-        FetchScheduleAndRenderCalendar();
-        function FetchScheduleAndRenderCalendar() {
+    <script>
+
+        $(document).ready(function () {
             var events = [];
-            $.ajax({
-            type: "GET",
-            url: "/home/GetInitialSchedules",
-            success: function (data) {
+            var selectedEvent = null;
 
-                $.each(data, function (i, v) {
-                    events.push({
-                        title: 'Slot ' + v.SlotNumber + ' - ' + v.AssignedPersonName,
-                        SlotNumber:v.SlotNumber,
-                        WeekNumber: v.WeekNumber,
-                        description: v.AssignedPersonName,
-                        start: moment(v.Start_Date),
-                        //   end:  moment(v.End_Date) ,
-                        color: v.Theme_Colour,
-                        allDay: v.Is_FullDay
-                    });
+            FetchScheduleAndRenderCalendar();
+            function FetchScheduleAndRenderCalendar() {
+                var events = [];
+                $.ajax({
+                    type: "GET",
+                    url: "/home/GetInitialSchedules",
+                    success: function (data) {
+
+                        $.each(data, function (i, v) {
+                            events.push({
+                                title: 'Slot ' + v.SlotNumber + ' - ' + v.ResidentName,
+                                SlotNumber: v.SlotNumber,
+                                WeekNumber: v.WeekNumber,
+                                description: v.ResidentName,
+                                start: moment(v.Start_Date),
+                                //   end:  moment(v.End_Date) ,
+                                color: v.Theme_Colour,
+                                allDay: v.Is_FullDay
+                            });
+                        });
+                        GenerateCalendar(events);
+                    },
+                    error: function (error) {
+                        alert('Failed to fetch data.');
+                    }
                 });
-                GenerateCalendar(events);
-            },
-            error: function (error) {
-                alert('Failed to fetch data.');
+
             }
-        });
+            function GenerateCalendar(events) {
+                $('#calendar').fullCalendar('destroy');
+                $('#calendar').fullCalendar({
+                    contentHeight: 500,
 
-        }
-        function GenerateCalendar(events) {
-            $('#calendar').fullCalendar('destroy');
-            $('#calendar').fullCalendar({
-                contentHeight: 500,
+                    defaultDate: new Date(),
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev,next,today',
+                        center: 'title,',
+                        right: 'month,basicWeek,listMonth,dayGridWeek'
+                    },
 
-                defaultDate: new Date(),
-                timeFormat: 'h(:mm)a',
-                header: {
-                    left: 'prev,next,today',
-                    center: 'title,',
-                    right: 'month,basicWeek,listMonth,dayGridWeek'
-                },
-                eventLimit: true,
-                eventColor: '#378006',
-                events: events,
-                eventClick: function (calEvent, jsEvent, view) {
-                    selectedEvent = calEvent;
-                    console.log("Event clicked:", calEvent);
-                    $('#MyModal #scheduleTitle').text(calEvent.title);
-                    var $description = $('<div/>');
-                    $description.append($('<p/>').html('<b>Start Date:</b>' + calEvent.start.format("DD-MM-YYYY HH-mm-a")));
-                    $description.append($('<p/>').html('<b>Assigned Person Name:</b>' + calEvent.description));
+                    eventLimit: true,
+                    eventColor: '#378006',
+                    events: events,
+                    eventClick: function (calEvent, jsEvent, view) {
+                        selectedEvent = calEvent;
+                        console.log("Event clicked:", calEvent);
+                        $('#MyModal #scheduleTitle').text(calEvent.title);
+                        var $description = $('<div />');
+                        $description.append($('<p />').html('<b>Start Date:</b>' + calEvent.start.format("DD-MM-YYYY HH-mm-a")));
+                        $description.append($('<p />').html('<b>Assigned Person Name:</b>' + calEvent.description));
 
-                    $('#MyModal #pDeatils').empty().html($description);
-                    $(document).ready(function () {
-                        // Show modal when the page loads
-                        $('#MyModal').modal('show');
-                    });
+                        $('#MyModal #pDeatils').empty().html($description);
+                        $(document).ready(function () {
+                            // Show modal when the page loads
+                            $('#MyModal').modal('show');
+                        });
+                    }
+
+                });
+            }
+
+            $('#btnEdit').click(function () {
+                console.log(selectedEvent.description);
+                if (selectedEvent != null) {
+                    if (selectedEvent.description == 'Choose a slot') {
+                        $.ajax({
+                            type: "POST",
+                            url: "/home/ChooseScedule",
+                            data: { 'weekNumber': selectedEvent.WeekNumber, 'slotNumber': selectedEvent.SlotNumber },
+                            success: function (data) {
+                                if (data.status) {
+                                    // Refresh calendar
+                                    FetchScheduleAndRenderCalendar();
+                                    $(document).ready(function () {
+                                        // Show modal when the page loads
+                                        $('#MyModal').modal('hide');
+                                    });
+                                }
+                            },
+                            error: function () {
+                                alert('Failed');
+                            }
+                        });
+                    } else {
+                        alert('This slot is already assigned.');
+                    }
                 }
+                //FetchScheduleAndRenderCalendar(); // Refresh calendar
             });
-        }
-        //$('#btnEdit').click(function () {
-        //    console.log(selectedEvent.description);
-        //    if (selectedEvent != null && selectedEvent.description == "Choose Slot") {
-        //        $.ajax({
-        //            type: "POST",
-        //            url: "/home/ChooseScedule",
-        //            data: { 'weekNumber': selectedEvent.WeekNumber, 'slotNumber': selectedEvent.SlotNumber },
-        //            success: function (data) {
 
-        //                if (data.status) {
-        //                    // Refresh calendar
-        //                    FetchScheduleAndRenderCalendar();
-        //                    $(document).ready(function () {
-        //                        // Show modal when the page loads
-        //                        $('#MyModal').modal('hide');
-        //                    });
-        //                }
-        //            },
-        //            error: function () {
-        //                alert('Failed');
-        //            }
-        //        });
-              
-            
-            
-        //    }
-        //})
-        $('#btnEdit').click(function () {
-            console.log(selectedEvent.description);
-            if (selectedEvent != null) {
-                if (selectedEvent.description == "Choose Slot") {
+
+            $('#btnDelete').click(function () {
+                // Uncomment the code inside the event handler
+                if (selectedEvent != null && confirm('Are you sure?')) {
                     $.ajax({
                         type: "POST",
-                        url: "/home/ChooseScedule",
+                        url: "/home/DeleteSchedule",
                         data: { 'weekNumber': selectedEvent.WeekNumber, 'slotNumber': selectedEvent.SlotNumber },
                         success: function (data) {
+
                             if (data.status) {
                                 // Refresh calendar
                                 FetchScheduleAndRenderCalendar();
@@ -165,38 +301,11 @@
                             alert('Failed');
                         }
                     });
-                } else {
-                    alert('This slot is already assigned.');
                 }
-            }
-            //FetchScheduleAndRenderCalendar(); // Refresh calendar
+            });
+
         });
+    </script>
 
-
-        $('#btnDelete').click(function () {
-            // Uncomment the code inside the event handler
-            if (selectedEvent != null && confirm('Are you sure?')) {
-                $.ajax({
-                    type: "POST",
-                    url: "/home/DeleteSchedule",
-                    data: { 'weekNumber': selectedEvent.WeekNumber, 'slotNumber': selectedEvent.SlotNumber},
-                    success: function (data) {
-                        
-                        if (data.status) {
-                            // Refresh calendar
-                            FetchScheduleAndRenderCalendar();
-                            $(document).ready(function () {
-                                // Show modal when the page loads
-                                $('#MyModal').modal('hide');
-                            });
-                        }
-                    },
-                    error: function () {
-                        alert('Failed');
-                    }
-                });
-            }
-        });
-
-    });
-</script>
+</body>
+</html>

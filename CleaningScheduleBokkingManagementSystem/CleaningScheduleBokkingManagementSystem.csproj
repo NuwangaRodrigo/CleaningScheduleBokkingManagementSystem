@@ -50,8 +50,40 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGrid, Version=9.29.3.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\SendGrid.9.29.3\lib\net452\SendGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="StarkbankEcdsa, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b2e6337a5d77bfbc, processorArchitecture=MSIL">
+      <HintPath>..\packages\starkbank-ecdsa.1.3.3\lib\net452\StarkbankEcdsa.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -61,6 +93,12 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.3.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -100,59 +138,90 @@
     <Content Include="App_Data\ScheduleBookingDB_log.ldf">
       <DependentUpon>ScheduleBookingDB.mdf</DependentUpon>
     </Content>
+    <Content Include="BookingScheduleManagementSystemModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BookingScheduleManagementSystemModel.edmx</DependentUpon>
+      <LastGenOutput>BookingScheduleManagementSystemModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="BookingScheduleManagementSystemModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BookingScheduleManagementSystemModel.edmx</DependentUpon>
+      <LastGenOutput>BookingScheduleManagementSystemModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
-    <Content Include="ScheduleBookingModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ScheduleBookingModel.Context.cs</LastGenOutput>
-      <DependentUpon>ScheduleBookingModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="ScheduleBookingModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ScheduleBookingModel.edmx</DependentUpon>
-      <LastGenOutput>ScheduleBookingModel.cs</LastGenOutput>
-    </Content>
+    <Content Include="Images\1.jpg" />
+    <Content Include="Images\28949.jpg" />
+    <Content Include="Images\bgimage.png" />
+    <Content Include="Images\ProfilePhoto.png" />
+    <Content Include="Images\tlogo.png" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BookingScheduleManagementSystemModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingScheduleManagementSystemModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookingScheduleManagementSystemModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingScheduleManagementSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookingScheduleManagementSystemModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BookingScheduleManagementSystemModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="BUILDING.cs">
+      <DependentUpon>BookingScheduleManagementSystemModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CleaningSchedule.cs">
-      <DependentUpon>ScheduleBookingModel.tt</DependentUpon>
+      <DependentUpon>BookingScheduleManagementSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CLEANING_AREA.cs">
+      <DependentUpon>BookingScheduleManagementSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="FLOOR.cs">
+      <DependentUpon>BookingScheduleManagementSystemModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GROUP.cs">
+      <DependentUpon>BookingScheduleManagementSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserDetailsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScheduleBookingModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ScheduleBookingModel.Context.tt</DependentUpon>
+    <Compile Include="RESIDENT.cs">
+      <DependentUpon>BookingScheduleManagementSystemModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScheduleBookingModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ScheduleBookingModel.tt</DependentUpon>
+    <Compile Include="ROOM.cs">
+      <DependentUpon>BookingScheduleManagementSystemModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ScheduleBookingModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ScheduleBookingModel.edmx</DependentUpon>
+    <Compile Include="USER.cs">
+      <DependentUpon>BookingScheduleManagementSystemModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <None Include="packages.config" />
-    <EntityDeploy Include="ScheduleBookingModel.edmx">
+    <EntityDeploy Include="BookingScheduleManagementSystemModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ScheduleBookingModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>BookingScheduleManagementSystemModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="ScheduleBookingModel.edmx.diagram">
-      <DependentUpon>ScheduleBookingModel.edmx</DependentUpon>
+    <Content Include="BookingScheduleManagementSystemModel.edmx.diagram">
+      <DependentUpon>BookingScheduleManagementSystemModel.edmx</DependentUpon>
     </Content>
+    <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Home\Group.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -161,7 +230,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Folder Include="Views\SchedulePlaning\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

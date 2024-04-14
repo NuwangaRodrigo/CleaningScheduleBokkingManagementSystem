@@ -1,0 +1,566 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BookingScheduleManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BUILDINGS">
+          <Key>
+            <PropertyRef Name="Building_Id" />
+          </Key>
+          <Property Name="Building_Id" Type="int" Nullable="false" />
+          <Property Name="Building_Name" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="CLEANING_AREA">
+          <Key>
+            <PropertyRef Name="Cleaning_Id" />
+          </Key>
+          <Property Name="Cleaning_Id" Type="int" Nullable="false" />
+          <Property Name="Cleaning_Name" Type="varchar" MaxLength="10" />
+          <Property Name="Floor_Id" Type="int" Nullable="false" />
+          <Property Name="Group_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CleaningSchedule">
+          <Key>
+            <PropertyRef Name="WeekNumber" />
+            <PropertyRef Name="SlotNumber" />
+          </Key>
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="SlotNumber" Type="int" Nullable="false" />
+          <Property Name="Resident_Id" Type="int" />
+          <Property Name="Start_Date" Type="datetime" />
+          <Property Name="End_Date" Type="datetime" />
+          <Property Name="Is_Cleaned" Type="bit" />
+          <Property Name="Is_Verified" Type="bit" />
+          <Property Name="Theme_Colour" Type="nvarchar" MaxLength="10" />
+          <Property Name="Is_FullDay" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FLOORS">
+          <Key>
+            <PropertyRef Name="Floor_Id" />
+          </Key>
+          <Property Name="Floor_Id" Type="int" Nullable="false" />
+          <Property Name="Floor_Name" Type="varchar" MaxLength="10" />
+          <Property Name="Building_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GROUPS">
+          <Key>
+            <PropertyRef Name="Group_Id" />
+          </Key>
+          <Property Name="Group_Id" Type="int" Nullable="false" />
+          <Property Name="Group_Name" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="RESIDENTS">
+          <Key>
+            <PropertyRef Name="Resident_Id" />
+          </Key>
+          <Property Name="Resident_Id" Type="int" Nullable="false" />
+          <Property Name="Full_Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Contact_No" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Room_Id" Type="int" Nullable="false" />
+          <Property Name="Group_Id" Type="int" Nullable="false" />
+          <Property Name="Is_Admin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROOMS">
+          <Key>
+            <PropertyRef Name="Room_Id" />
+          </Key>
+          <Property Name="Room_Id" Type="int" Nullable="false" />
+          <Property Name="Room_Name" Type="varchar" MaxLength="10" />
+          <Property Name="Group_Id" Type="int" Nullable="false" />
+          <Property Name="Floor_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="User_Name" />
+          </Key>
+          <Property Name="User_Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Resident_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CLEANING___Floor__4AB81AF0">
+          <End Role="FLOORS" Type="Self.FLOORS" Multiplicity="1" />
+          <End Role="CLEANING_AREA" Type="Self.CLEANING_AREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FLOORS">
+              <PropertyRef Name="Floor_Id" />
+            </Principal>
+            <Dependent Role="CLEANING_AREA">
+              <PropertyRef Name="Floor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CLEANING___Group__4BAC3F29">
+          <End Role="GROUPS" Type="Self.GROUPS" Multiplicity="1" />
+          <End Role="CLEANING_AREA" Type="Self.CLEANING_AREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GROUPS">
+              <PropertyRef Name="Group_Id" />
+            </Principal>
+            <Dependent Role="CLEANING_AREA">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CleaningS__Assig__4E88ABD4">
+          <End Role="RESIDENTS" Type="Self.RESIDENTS" Multiplicity="0..1" />
+          <End Role="CleaningSchedule" Type="Self.CleaningSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RESIDENTS">
+              <PropertyRef Name="Resident_Id" />
+            </Principal>
+            <Dependent Role="CleaningSchedule">
+              <PropertyRef Name="Resident_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FLOORS__Building__398D8EEE">
+          <End Role="BUILDINGS" Type="Self.BUILDINGS" Multiplicity="1" />
+          <End Role="FLOORS" Type="Self.FLOORS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BUILDINGS">
+              <PropertyRef Name="Building_Id" />
+            </Principal>
+            <Dependent Role="FLOORS">
+              <PropertyRef Name="Building_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESIDENTS__Group__44FF419A">
+          <End Role="GROUPS" Type="Self.GROUPS" Multiplicity="1" />
+          <End Role="RESIDENTS" Type="Self.RESIDENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GROUPS">
+              <PropertyRef Name="Group_Id" />
+            </Principal>
+            <Dependent Role="RESIDENTS">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ROOMS__Floor_Id__4222D4EF">
+          <End Role="FLOORS" Type="Self.FLOORS" Multiplicity="1" />
+          <End Role="ROOMS" Type="Self.ROOMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FLOORS">
+              <PropertyRef Name="Floor_Id" />
+            </Principal>
+            <Dependent Role="ROOMS">
+              <PropertyRef Name="Floor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ROOMS__Group_Id__412EB0B6">
+          <End Role="GROUPS" Type="Self.GROUPS" Multiplicity="1" />
+          <End Role="ROOMS" Type="Self.ROOMS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GROUPS">
+              <PropertyRef Name="Group_Id" />
+            </Principal>
+            <Dependent Role="ROOMS">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USERS__Resident___47DBAE45">
+          <End Role="RESIDENTS" Type="Self.RESIDENTS" Multiplicity="1" />
+          <End Role="USERS" Type="Self.USERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RESIDENTS">
+              <PropertyRef Name="Resident_Id" />
+            </Principal>
+            <Dependent Role="USERS">
+              <PropertyRef Name="Resident_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookingScheduleManagementSystemModelStoreContainer">
+          <EntitySet Name="BUILDINGS" EntityType="Self.BUILDINGS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CLEANING_AREA" EntityType="Self.CLEANING_AREA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CleaningSchedule" EntityType="Self.CleaningSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FLOORS" EntityType="Self.FLOORS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GROUPS" EntityType="Self.GROUPS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RESIDENTS" EntityType="Self.RESIDENTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROOMS" EntityType="Self.ROOMS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USERS" EntityType="Self.USERS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CLEANING___Floor__4AB81AF0" Association="Self.FK__CLEANING___Floor__4AB81AF0">
+            <End Role="FLOORS" EntitySet="FLOORS" />
+            <End Role="CLEANING_AREA" EntitySet="CLEANING_AREA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CLEANING___Group__4BAC3F29" Association="Self.FK__CLEANING___Group__4BAC3F29">
+            <End Role="GROUPS" EntitySet="GROUPS" />
+            <End Role="CLEANING_AREA" EntitySet="CLEANING_AREA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CleaningS__Assig__4E88ABD4" Association="Self.FK__CleaningS__Assig__4E88ABD4">
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+            <End Role="CleaningSchedule" EntitySet="CleaningSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FLOORS__Building__398D8EEE" Association="Self.FK__FLOORS__Building__398D8EEE">
+            <End Role="BUILDINGS" EntitySet="BUILDINGS" />
+            <End Role="FLOORS" EntitySet="FLOORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESIDENTS__Group__44FF419A" Association="Self.FK__RESIDENTS__Group__44FF419A">
+            <End Role="GROUPS" EntitySet="GROUPS" />
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ROOMS__Floor_Id__4222D4EF" Association="Self.FK__ROOMS__Floor_Id__4222D4EF">
+            <End Role="FLOORS" EntitySet="FLOORS" />
+            <End Role="ROOMS" EntitySet="ROOMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ROOMS__Group_Id__412EB0B6" Association="Self.FK__ROOMS__Group_Id__412EB0B6">
+            <End Role="GROUPS" EntitySet="GROUPS" />
+            <End Role="ROOMS" EntitySet="ROOMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USERS__Resident___47DBAE45" Association="Self.FK__USERS__Resident___47DBAE45">
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+            <End Role="USERS" EntitySet="USERS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BookingScheduleManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BUILDING">
+          <Key>
+            <PropertyRef Name="Building_Id" />
+          </Key>
+          <Property Name="Building_Id" Type="Int32" Nullable="false" />
+          <Property Name="Building_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FLOORS" Relationship="Self.FK__FLOORS__Building__398D8EEE" FromRole="BUILDINGS" ToRole="FLOORS" />
+        </EntityType>
+        <EntityType Name="CLEANING_AREA">
+          <Key>
+            <PropertyRef Name="Cleaning_Id" />
+          </Key>
+          <Property Name="Cleaning_Id" Type="Int32" Nullable="false" />
+          <Property Name="Cleaning_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Floor_Id" Type="Int32" Nullable="false" />
+          <Property Name="Group_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FLOOR" Relationship="Self.FK__CLEANING___Floor__4AB81AF0" FromRole="CLEANING_AREA" ToRole="FLOORS" />
+          <NavigationProperty Name="GROUP" Relationship="Self.FK__CLEANING___Group__4BAC3F29" FromRole="CLEANING_AREA" ToRole="GROUPS" />
+        </EntityType>
+        <EntityType Name="CleaningSchedule">
+          <Key>
+            <PropertyRef Name="WeekNumber" />
+            <PropertyRef Name="SlotNumber" />
+          </Key>
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="SlotNumber" Type="Int32" Nullable="false" />
+          <Property Name="Resident_Id" Type="Int32" />
+          <Property Name="Start_Date" Type="DateTime" Precision="3" />
+          <Property Name="End_Date" Type="DateTime" Precision="3" />
+          <Property Name="Is_Cleaned" Type="Boolean" />
+          <Property Name="Is_Verified" Type="Boolean" />
+          <Property Name="Theme_Colour" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Is_FullDay" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RESIDENT" Relationship="Self.FK__CleaningS__Assig__4E88ABD4" FromRole="CleaningSchedule" ToRole="RESIDENTS" />
+        </EntityType>
+        <EntityType Name="FLOOR">
+          <Key>
+            <PropertyRef Name="Floor_Id" />
+          </Key>
+          <Property Name="Floor_Id" Type="Int32" Nullable="false" />
+          <Property Name="Floor_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Building_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BUILDING" Relationship="Self.FK__FLOORS__Building__398D8EEE" FromRole="FLOORS" ToRole="BUILDINGS" />
+          <NavigationProperty Name="CLEANING_AREA" Relationship="Self.FK__CLEANING___Floor__4AB81AF0" FromRole="FLOORS" ToRole="CLEANING_AREA" />
+          <NavigationProperty Name="ROOMS" Relationship="Self.FK__ROOMS__Floor_Id__4222D4EF" FromRole="FLOORS" ToRole="ROOMS" />
+        </EntityType>
+        <EntityType Name="GROUP">
+          <Key>
+            <PropertyRef Name="Group_Id" />
+          </Key>
+          <Property Name="Group_Id" Type="Int32" Nullable="false" />
+          <Property Name="Group_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CLEANING_AREA" Relationship="Self.FK__CLEANING___Group__4BAC3F29" FromRole="GROUPS" ToRole="CLEANING_AREA" />
+          <NavigationProperty Name="RESIDENTS" Relationship="Self.FK__RESIDENTS__Group__44FF419A" FromRole="GROUPS" ToRole="RESIDENTS" />
+          <NavigationProperty Name="ROOMS" Relationship="Self.FK__ROOMS__Group_Id__412EB0B6" FromRole="GROUPS" ToRole="ROOMS" />
+        </EntityType>
+        <EntityType Name="RESIDENT">
+          <Key>
+            <PropertyRef Name="Resident_Id" />
+          </Key>
+          <Property Name="Resident_Id" Type="Int32" Nullable="false" />
+          <Property Name="Full_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contact_No" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Room_Id" Type="Int32" Nullable="false" />
+          <Property Name="Group_Id" Type="Int32" Nullable="false" />
+          <Property Name="Is_Admin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CleaningSchedules" Relationship="Self.FK__CleaningS__Assig__4E88ABD4" FromRole="RESIDENTS" ToRole="CleaningSchedule" />
+          <NavigationProperty Name="GROUP" Relationship="Self.FK__RESIDENTS__Group__44FF419A" FromRole="RESIDENTS" ToRole="GROUPS" />
+          <NavigationProperty Name="USERS" Relationship="Self.FK__USERS__Resident___47DBAE45" FromRole="RESIDENTS" ToRole="USERS" />
+        </EntityType>
+        <EntityType Name="ROOM">
+          <Key>
+            <PropertyRef Name="Room_Id" />
+          </Key>
+          <Property Name="Room_Id" Type="Int32" Nullable="false" />
+          <Property Name="Room_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Group_Id" Type="Int32" Nullable="false" />
+          <Property Name="Floor_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FLOOR" Relationship="Self.FK__ROOMS__Floor_Id__4222D4EF" FromRole="ROOMS" ToRole="FLOORS" />
+          <NavigationProperty Name="GROUP" Relationship="Self.FK__ROOMS__Group_Id__412EB0B6" FromRole="ROOMS" ToRole="GROUPS" />
+        </EntityType>
+        <EntityType Name="USER">
+          <Key>
+            <PropertyRef Name="User_Name" />
+          </Key>
+          <Property Name="User_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Resident_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RESIDENT" Relationship="Self.FK__USERS__Resident___47DBAE45" FromRole="USERS" ToRole="RESIDENTS" />
+        </EntityType>
+        <Association Name="FK__FLOORS__Building__398D8EEE">
+          <End Role="BUILDINGS" Type="Self.BUILDING" Multiplicity="1" />
+          <End Role="FLOORS" Type="Self.FLOOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BUILDINGS">
+              <PropertyRef Name="Building_Id" />
+            </Principal>
+            <Dependent Role="FLOORS">
+              <PropertyRef Name="Building_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CLEANING___Floor__4AB81AF0">
+          <End Role="FLOORS" Type="Self.FLOOR" Multiplicity="1" />
+          <End Role="CLEANING_AREA" Type="Self.CLEANING_AREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FLOORS">
+              <PropertyRef Name="Floor_Id" />
+            </Principal>
+            <Dependent Role="CLEANING_AREA">
+              <PropertyRef Name="Floor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CLEANING___Group__4BAC3F29">
+          <End Role="GROUPS" Type="Self.GROUP" Multiplicity="1" />
+          <End Role="CLEANING_AREA" Type="Self.CLEANING_AREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GROUPS">
+              <PropertyRef Name="Group_Id" />
+            </Principal>
+            <Dependent Role="CLEANING_AREA">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CleaningS__Assig__4E88ABD4">
+          <End Role="RESIDENTS" Type="Self.RESIDENT" Multiplicity="0..1" />
+          <End Role="CleaningSchedule" Type="Self.CleaningSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RESIDENTS">
+              <PropertyRef Name="Resident_Id" />
+            </Principal>
+            <Dependent Role="CleaningSchedule">
+              <PropertyRef Name="Resident_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ROOMS__Floor_Id__4222D4EF">
+          <End Role="FLOORS" Type="Self.FLOOR" Multiplicity="1" />
+          <End Role="ROOMS" Type="Self.ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FLOORS">
+              <PropertyRef Name="Floor_Id" />
+            </Principal>
+            <Dependent Role="ROOMS">
+              <PropertyRef Name="Floor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESIDENTS__Group__44FF419A">
+          <End Role="GROUPS" Type="Self.GROUP" Multiplicity="1" />
+          <End Role="RESIDENTS" Type="Self.RESIDENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GROUPS">
+              <PropertyRef Name="Group_Id" />
+            </Principal>
+            <Dependent Role="RESIDENTS">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ROOMS__Group_Id__412EB0B6">
+          <End Role="GROUPS" Type="Self.GROUP" Multiplicity="1" />
+          <End Role="ROOMS" Type="Self.ROOM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GROUPS">
+              <PropertyRef Name="Group_Id" />
+            </Principal>
+            <Dependent Role="ROOMS">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USERS__Resident___47DBAE45">
+          <End Role="RESIDENTS" Type="Self.RESIDENT" Multiplicity="1" />
+          <End Role="USERS" Type="Self.USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RESIDENTS">
+              <PropertyRef Name="Resident_Id" />
+            </Principal>
+            <Dependent Role="USERS">
+              <PropertyRef Name="Resident_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookingScheduleManagementSystemEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BUILDINGS" EntityType="Self.BUILDING" />
+          <EntitySet Name="CLEANING_AREA" EntityType="Self.CLEANING_AREA" />
+          <EntitySet Name="CleaningSchedules" EntityType="Self.CleaningSchedule" />
+          <EntitySet Name="FLOORS" EntityType="Self.FLOOR" />
+          <EntitySet Name="GROUPS" EntityType="Self.GROUP" />
+          <EntitySet Name="RESIDENTS" EntityType="Self.RESIDENT" />
+          <EntitySet Name="ROOMS" EntityType="Self.ROOM" />
+          <EntitySet Name="USERS" EntityType="Self.USER" />
+          <AssociationSet Name="FK__FLOORS__Building__398D8EEE" Association="Self.FK__FLOORS__Building__398D8EEE">
+            <End Role="BUILDINGS" EntitySet="BUILDINGS" />
+            <End Role="FLOORS" EntitySet="FLOORS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CLEANING___Floor__4AB81AF0" Association="Self.FK__CLEANING___Floor__4AB81AF0">
+            <End Role="FLOORS" EntitySet="FLOORS" />
+            <End Role="CLEANING_AREA" EntitySet="CLEANING_AREA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CLEANING___Group__4BAC3F29" Association="Self.FK__CLEANING___Group__4BAC3F29">
+            <End Role="GROUPS" EntitySet="GROUPS" />
+            <End Role="CLEANING_AREA" EntitySet="CLEANING_AREA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CleaningS__Assig__4E88ABD4" Association="Self.FK__CleaningS__Assig__4E88ABD4">
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+            <End Role="CleaningSchedule" EntitySet="CleaningSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ROOMS__Floor_Id__4222D4EF" Association="Self.FK__ROOMS__Floor_Id__4222D4EF">
+            <End Role="FLOORS" EntitySet="FLOORS" />
+            <End Role="ROOMS" EntitySet="ROOMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESIDENTS__Group__44FF419A" Association="Self.FK__RESIDENTS__Group__44FF419A">
+            <End Role="GROUPS" EntitySet="GROUPS" />
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ROOMS__Group_Id__412EB0B6" Association="Self.FK__ROOMS__Group_Id__412EB0B6">
+            <End Role="GROUPS" EntitySet="GROUPS" />
+            <End Role="ROOMS" EntitySet="ROOMS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USERS__Resident___47DBAE45" Association="Self.FK__USERS__Resident___47DBAE45">
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+            <End Role="USERS" EntitySet="USERS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BookingScheduleManagementSystemModelStoreContainer" CdmEntityContainer="BookingScheduleManagementSystemEntities2">
+          <EntitySetMapping Name="BUILDINGS">
+            <EntityTypeMapping TypeName="BookingScheduleManagementSystemModel.BUILDING">
+              <MappingFragment StoreEntitySet="BUILDINGS">
+                <ScalarProperty Name="Building_Id" ColumnName="Building_Id" />
+                <ScalarProperty Name="Building_Name" ColumnName="Building_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CLEANING_AREA">
+            <EntityTypeMapping TypeName="BookingScheduleManagementSystemModel.CLEANING_AREA">
+              <MappingFragment StoreEntitySet="CLEANING_AREA">
+                <ScalarProperty Name="Cleaning_Id" ColumnName="Cleaning_Id" />
+                <ScalarProperty Name="Cleaning_Name" ColumnName="Cleaning_Name" />
+                <ScalarProperty Name="Floor_Id" ColumnName="Floor_Id" />
+                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CleaningSchedules">
+            <EntityTypeMapping TypeName="BookingScheduleManagementSystemModel.CleaningSchedule">
+              <MappingFragment StoreEntitySet="CleaningSchedule">
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="SlotNumber" ColumnName="SlotNumber" />
+                <ScalarProperty Name="Resident_Id" ColumnName="Resident_Id" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Is_Cleaned" ColumnName="Is_Cleaned" />
+                <ScalarProperty Name="Is_Verified" ColumnName="Is_Verified" />
+                <ScalarProperty Name="Theme_Colour" ColumnName="Theme_Colour" />
+                <ScalarProperty Name="Is_FullDay" ColumnName="Is_FullDay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FLOORS">
+            <EntityTypeMapping TypeName="BookingScheduleManagementSystemModel.FLOOR">
+              <MappingFragment StoreEntitySet="FLOORS">
+                <ScalarProperty Name="Floor_Id" ColumnName="Floor_Id" />
+                <ScalarProperty Name="Floor_Name" ColumnName="Floor_Name" />
+                <ScalarProperty Name="Building_Id" ColumnName="Building_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GROUPS">
+            <EntityTypeMapping TypeName="BookingScheduleManagementSystemModel.GROUP">
+              <MappingFragment StoreEntitySet="GROUPS">
+                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
+                <ScalarProperty Name="Group_Name" ColumnName="Group_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RESIDENTS">
+            <EntityTypeMapping TypeName="BookingScheduleManagementSystemModel.RESIDENT">
+              <MappingFragment StoreEntitySet="RESIDENTS">
+                <ScalarProperty Name="Resident_Id" ColumnName="Resident_Id" />
+                <ScalarProperty Name="Full_Name" ColumnName="Full_Name" />
+                <ScalarProperty Name="Contact_No" ColumnName="Contact_No" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Room_Id" ColumnName="Room_Id" />
+                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
+                <ScalarProperty Name="Is_Admin" ColumnName="Is_Admin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROOMS">
+            <EntityTypeMapping TypeName="BookingScheduleManagementSystemModel.ROOM">
+              <MappingFragment StoreEntitySet="ROOMS">
+                <ScalarProperty Name="Room_Id" ColumnName="Room_Id" />
+                <ScalarProperty Name="Room_Name" ColumnName="Room_Name" />
+                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
+                <ScalarProperty Name="Floor_Id" ColumnName="Floor_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERS">
+            <EntityTypeMapping TypeName="BookingScheduleManagementSystemModel.USER">
+              <MappingFragment StoreEntitySet="USERS">
+                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Resident_Id" ColumnName="Resident_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

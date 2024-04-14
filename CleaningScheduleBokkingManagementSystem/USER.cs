@@ -12,17 +12,11 @@ namespace CleaningScheduleBokkingManagementSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class CleaningSchedule
+    public partial class USER
     {
-        public int WeekNumber { get; set; }
-        public int SlotNumber { get; set; }
-        public Nullable<int> Resident_Id { get; set; }
-        public Nullable<System.DateTime> Start_Date { get; set; }
-        public Nullable<System.DateTime> End_Date { get; set; }
-        public Nullable<bool> Is_Cleaned { get; set; }
-        public Nullable<bool> Is_Verified { get; set; }
-        public string Theme_Colour { get; set; }
-        public bool Is_FullDay { get; set; }
+        public string User_Name { get; set; }
+        public string Password { get; set; }
+        public int Resident_Id { get; set; }
     
         public virtual RESIDENT RESIDENT { get; set; }
     }

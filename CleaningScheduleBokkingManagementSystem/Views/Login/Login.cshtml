@@ -1,0 +1,111 @@
+﻿@model CleaningScheduleBokkingManagementSystem.USER
+    @{
+    ViewBag.Title = "Login";
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <style>
+        Add your CSS styles here
+        body {
+            font-family: Tahoma, sans-serif;
+            background-color: black;
+            background-size: cover;
+            background-image: url(/Images/bgimage.png);
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 690px;
+            width: 1200px;
+        }
+
+        .container {
+            background-color: black;
+            /*padding: 10px;
+            border-radius: 10px;
+            margin-right: 10px;
+            margin-top: 10px;*/
+            opacity: 0.9;
+            height: 400px;
+            width: 350px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: transparent;
+            color: #0059FF;
+            cursor: pointer;
+            border: 1px solid #0059FF;
+        }
+
+            input[type="submit"]:hover {
+                background-color: #0059FF;
+                color: white;
+            }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder {
+            color: #1b1b1b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>User Login</h2>
+        <!-- Error message placeholder -->
+        <div id="errorMessage" style="color: red; display: none;"></div>
+        <form id="loginForm" action="/Login/LoginUser" method="post">
+            <input type="hidden" name="__RequestVerificationToken" value="your-anti-forgery-token-here" />
+            <div>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="User_Name" placeholder="Enter your username" required>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="Password" placeholder="Enter your password" required>
+            </div>
+            <div>
+                <input type="submit" value="Login">
+                <br />
+                <input type="submit" value="Register" onclick="window.location.href='/Register'">
+            </div>
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').submit(function (event) {
+                event.preventDefault(); // Prevent form submission
+                $.post('/Login/LoginUser', $(this).serialize(), function (response) {
+                    if (response.errorMessage) {
+                        $('#errorMessage').text(response.errorMessage).show(); // Display error message
+                    } else {
+                        // Redirect to home page or handle success scenario
+                        window.location.href = '/Home/Index';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

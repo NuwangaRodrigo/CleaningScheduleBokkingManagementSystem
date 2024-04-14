@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Information</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+
+<head>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000; /* Black background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            background-color: #FFD700; /* Golden yellow container */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            color: black; /* Text color */
+            margin-top: 50px;
+        }
+
+        .user-details {
+            display: flex;
+        }
+
+        .column {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .input-box {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #000000; /* Black border */
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #FFD700; /* Golden yellow submit button */
+            color: black; /* Text color */
+            cursor: pointer;
+        }
+
+            input[type="submit"]:hover {
+                background-color: #DAA520; /* Darker golden yellow on hover */
+            }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder,
+        input[type="email"]::placeholder {
+            color: #000000; /* Black placeholder text */
+        }
+    </style>
+
+
+</head>
+<body>
+    <div class="container">
+        <h2>Register User</h2>
+        <form action="/Home/RegisterUser" method="get">
+            <div class="user-details">
+                <div class="column">
+                    <div class="input-box">
+                        <span class="txt_name">Full Name</span>
+                        <input type="text" id="ResidentName" name="ResidentName" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="txt_phone">Phone number</span>
+                        <input type="text" id="Contact_No" name="Contact_No" required>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="input-box">
+                        <span class="txt_email">Email</span>
+                        <input type="email" id="Email" name="Email" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="txt_pwd">Password</span>
+                        <input type="password" id="txt_pwd" name="txt_pwd" placeholder="Enter your Password" required>
+                    </div>
+                </div>
+            </div>
+            <div class="button">
+                <input type="submit" value="Register" ><br><br>
+                <input type="submit" value="Cancel"><br><br>
+            </div>
+        </form>
+    </div>
+
+
+</body>
+</html>

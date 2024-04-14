@@ -1,0 +1,99 @@
+﻿@model List<CleaningScheduleBokkingManagementSystem.Models.UserDetailsViewModel>
+@{
+    ViewBag.Title = "Group";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Information</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background-color: black;
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 690px;
+            width: 1200px;
+        }
+
+        .container {
+            background-color: #1b1b1b;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            color: white;
+            margin-top: 50px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid white; 
+        }
+
+        th {
+            background-color: navy; 
+        }
+
+        tr:nth-child(even) {
+            background-color: #003366; 
+        }
+
+        tr:nth-child(odd) {
+            background-color: #002147; 
+        }
+
+        th, td {
+            color: white; 
+        }
+    </style>
+</body>
+    <div class="container">
+        <h2>Group Information</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Contact No</th>
+                    <th>Room Number</th>
+                
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.FullName</td>
+                        <td>@user.ContactNo</td>
+                        <td>@user.RoomNumber</td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</html>
+
+
