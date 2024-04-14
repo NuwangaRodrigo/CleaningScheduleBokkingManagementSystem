@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
     <style>
-        Add your CSS styles here
+       
         body {
             font-family: Tahoma, sans-serif;
             background-color: black;
@@ -71,7 +71,7 @@
 
     <div class="container">
         <h2>User Login</h2>
-        <!-- Error message placeholder -->
+     
         <div id="errorMessage" style="color: red; display: none;"></div>
         <form id="loginForm" action="/Login/LoginUser" method="post">
             <input type="hidden" name="__RequestVerificationToken" value="your-anti-forgery-token-here" />
@@ -99,7 +99,7 @@
                     if (response.errorMessage) {
                         $('#errorMessage').text(response.errorMessage).show(); // Display error message
                     } else {
-                        // Redirect to home page or handle success scenario
+                        // Redirect to home page 
                         window.location.href = '/Home/Index';
                     }
                 });
