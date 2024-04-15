@@ -1,123 +1,125 @@
-﻿
-@{
-    ViewBag.Title = "Register";
-}
-
-<h2>Register</h2>
-<!DOCTYPE html>
-<html lang="en">
+﻿<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Information</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-
-
-<head>
+    <title>Registration Page</title>
     <style>
-     
         body {
             font-family: Arial, sans-serif;
-            background-color: #000000; /* Black background */
             margin: 0;
             padding: 0;
             display: flex;
+            align-items: stretch;
+            min-height: 100vh;
+        }
+
+        .left-side {
+            flex: 1;
+            background-image: url('.jpg'); /* Your image URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .right-side {
+            flex: 1;
+            display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-
-        .container {
-            background-color: #FFD700; /* Golden yellow container */
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            color: black; /* Text color */
-            margin-top: 50px;
         }
 
-        .user-details {
-            display: flex;
+        .registration-form {
+            max-width: 800px;
+            padding: 60px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
-        .column {
-            flex: 1;
-            margin-right: 20px;
-        }
-
-        .input-box {
-            margin-bottom: 15px;
-        }
-
-        input[type="text"],
-        input[type="password"],
-        input[type="submit"],
-        input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #000000; /* Black border */
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #FFD700; /* Golden yellow submit button */
-            color: black; /* Text color */
-            cursor: pointer;
-        }
-
-            input[type="submit"]:hover {
-                background-color: #DAA520; /* Darker golden yellow on hover */
+            .registration-form h2 {
+                text-align: center;
+                margin-bottom: 20px;
             }
 
-        input[type="text"]::placeholder,
-        input[type="password"]::placeholder,
-        input[type="email"]::placeholder {
-            color: #000000; /* Black placeholder text */
+        .form-group {
+            margin-bottom: 20px;
         }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+            .form-footer a {
+                text-decoration: none;
+                color: #007bff;
+            }
+
+                .form-footer a:hover {
+                    text-decoration: underline;
+                }
     </style>
-
-
 </head>
 <body>
-    <div class="container">
-        <h2>Register User</h2>
-        <form action="/Home/RegisterUser" method="get">
-            <div class="user-details">
-                <div class="column">
-                    <div class="input-box">
-                        <span class="txt_name">Full Name</span>
-                        <input type="text" id="ResidentName" name="ResidentName" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="txt_phone">Phone number</span>
-                        <input type="text" id="Contact_No" name="Contact_No" required>
-                    </div>
+    <div class="left-side"></div>
+    <div class="right-side">
+        <div class="registration-form">
+            <h2>Register</h2>
+            <form action="/Home/RegisterUser" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="Full_Name" name="Full_Name" placeholder="Enter your name">
                 </div>
-                <div class="column">
-                    <div class="input-box">
-                        <span class="txt_email">Email</span>
-                        <input type="email" id="Email" name="Email" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="txt_pwd">Password</span>
-                        <input type="password" id="txt_pwd" name="txt_pwd" placeholder="Enter your Password" required>
-                    </div>
+                <div class="form-group">
+                    <label for="name">Phone Number</label>
+                    <input type="text" id="Contact_No" name="Contact_No" placeholder="Enter your name">
                 </div>
-            </div>
-            <div class="button">
-                <input type="submit" value="Register" ><br><br>
-                <input type="submit" value="Cancel"><br><br>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="Email" name="Email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="Password" name="Password" placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password">
+                </div>
+                <button type="submit" class="btn-primary">Register</button>
+                <div class="form-footer">
+                    <span>Already have an account? <a href="login2.html">Login</a></span>
+                </div>
+            </form>
+        </div>
     </div>
-
-
 </body>
 </html>

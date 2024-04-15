@@ -250,6 +250,26 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
+        //POST: Account/RegisterUser
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public JsonResult RegisterUser(RESIDENT RESIDENTS)
+        {
+            var Status = false;
+
+            using (var db = new BookingScheduleManagementSystemEntities2())
+            {
+                RESIDENTS.Group_Id = 1;
+                RESIDENTS.Is_Admin = false;
+                db.RESIDENTS.Add(RESIDENTS);
+                db.SaveChanges();
+
+                Status = true;
+            }
+
+            return new JsonResult { Data = new { status = Status } };
+        }
     }
 }
     
