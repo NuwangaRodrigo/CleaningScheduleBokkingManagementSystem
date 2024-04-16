@@ -10,7 +10,7 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        BookingScheduleManagementSystemEntities2 dc = new BookingScheduleManagementSystemEntities2();
+        BookingScheduleManagementDBEntities dc = new BookingScheduleManagementDBEntities();
         public int residentId;
         // GET: Home
         public ActionResult Index()
@@ -25,7 +25,7 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
         }
         public JsonResult GetInitialSchedules()
         {
-            var events = dc.CleaningSchedules
+            var events = dc.CLEANINGSCHEDULEs
     .Join(dc.RESIDENTS, cs => cs.Resident_Id, r => r.Resident_Id,
         (cs, r) => new { cs, r })
     .Select(joinedData => new
@@ -47,7 +47,7 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
 
         }
         [HttpPost]
-        public JsonResult ChooseScedule(CleaningSchedule e)
+        public JsonResult ChooseScedule(CLEANINGSCHEDULE e)
         {
             var Status = false;
             // using (BookingScheduleManagementSystemEntities dc = new BookingScheduleManagementSystemEntities())
@@ -55,7 +55,7 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
             if (e.WeekNumber > 0)
             {
                 // Update schedule
-                var v = dc.CleaningSchedules.Where(a => (a.WeekNumber == e.WeekNumber && a.SlotNumber == e.SlotNumber)).FirstOrDefault();
+                var v = dc.CLEANINGSCHEDULEs.Where(a => (a.WeekNumber == e.WeekNumber && a.SlotNumber == e.SlotNumber)).FirstOrDefault();
                 if (v != null)
 
 
@@ -68,7 +68,7 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
 
             else
             {
-                dc.CleaningSchedules.Add(e);
+                dc.CLEANINGSCHEDULEs.Add(e);
             }
             dc.SaveChanges();
             Status = true;
@@ -79,54 +79,57 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
         public JsonResult DeleteSchedule(int weekNumber, int slotNumber)
         {
             var Status = false;
+            var currentUser = getCurrentUser(); // Get the current user (you need to implement this method)
+            
+            var v = dc.CLEANINGSCHEDULEs.FirstOrDefault(a => a.WeekNumber == weekNumber && a.SlotNumber == slotNumber);
 
-
-            var v = dc.CleaningSchedules.Where(a => (a.WeekNumber == weekNumber && a.SlotNumber == slotNumber)).FirstOrDefault();
             if (v != null)
             {
-                // dc.CleaningSchedules.Remove(v);
-                v.Resident_Id = 0;
-
-                v.Theme_Colour = "#AA336A";
-                dc.SaveChanges();
-                Status = true;
-            }
-
-            return new JsonResult { Data = new { status = Status } };
-        }
-        public ActionResult Group()
-        {
-
-            if (Session["Resident_Id"] != null)
-            {
-                // Retrieve the Resident_Id from the session
-                residentId = (int)Session["Resident_Id"];
-                var resident = dc.RESIDENTS.FirstOrDefault(r => r.Resident_Id == residentId);
-                if (resident == null)
+                if ( v.Resident_Id == currentUser.Resident_Id)
                 {
-                    return HttpNotFound();
+                    v.Resident_Id = 0;
+                    v.Theme_Colour = "#AA336A";
+                    dc.SaveChanges();
+                    Status = true;
                 }
-
-                int groupId = resident.Group_Id;
-                //load same group members
-                var users = (from r in dc.RESIDENTS
-                             join g in dc.GROUPS on r.Group_Id equals g.Group_Id
-                             where r.Group_Id == groupId && r.Resident_Id != 0
-                             select new UserDetailsViewModel
-                             {
-                                 FullName = r.Full_Name,
-                                 ContactNo = r.Contact_No,
-                                 RoomNumber = r.Room_Id,
-                                 GroupName = g.Group_Name
-                             }).ToList();
-
-                return View(users);
+                else
+                {
+                    
+                    Status = false;
+                }
             }
-            return RedirectToAction("Login", "Login");
+            else
+            {
+                
+                Status = false;
+            }
+
+            return Json(new { status = Status });
         }
+        public RESIDENT getCurrentUser()
+        {
+            
+            if (User.Identity.IsAuthenticated)
+            {
+                
+                string Email = User.Identity.Name;
+
+                // Assuming you have a method to retrieve user information from your database based on the username
+                var currentUser = dc.RESIDENTS.FirstOrDefault(u => u.Email == Email);
+
+                return currentUser;
+            }
+            else
+            {
+                // User is not authenticated, return null or handle appropriately
+                return null;
+            }
+        }
+
+        
         public JsonResult SchedulePlaning()
         {
-            var events = dc.CleaningSchedules
+            var events = dc.CLEANINGSCHEDULEs
     .Join(dc.RESIDENTS, cs => cs.Resident_Id, r => r.Resident_Id,
         (cs, r) => new { cs, r })
     .Select(joinedData => new
@@ -152,7 +155,7 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
             DateTime selectedDate;
             if (DateTime.TryParse(date, out selectedDate))
             {
-                var eventsForDate = dc.CleaningSchedules
+                var eventsForDate = dc.CLEANINGSCHEDULEs
                     .Where(e => e.Start_Date.HasValue && e.Start_Date.Value.Date == selectedDate.Date)
                     .ToList();
 
@@ -189,7 +192,7 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
             if (eventDate.HasValue && eventDate.Value.Date == selectedDate)
             {
                 // Assuming slot number is determined by the number of events on the same day
-                var eventsOnSameDay = dc.CleaningSchedules.Count(e => e.Start_Date.HasValue && e.Start_Date.Value.Date == selectedDate);
+                var eventsOnSameDay = dc.CLEANINGSCHEDULEs.Count(e => e.Start_Date.HasValue && e.Start_Date.Value.Date == selectedDate);
                 return eventsOnSameDay + 1;
             }
             return 0; // Return 0 if eventDate is null or different from selectedDate
@@ -206,13 +209,12 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
             int groupId = resident.Group_Id;
             //load same group members
             var users = (from r in dc.RESIDENTS
-                         join g in dc.GROUPS on r.Group_Id equals g.Group_Id
+                         join g in dc.GROUPs on r.Group_Id equals g.Group_Id
                          where r.Group_Id == groupId
                          select new UserDetailsViewModel
                          {
                              FullName = r.Full_Name,
                              ContactNo = r.Contact_No,
-                             RoomNumber = r.Room_Id,
                              GroupName = g.Group_Name
                          }).ToList();
 
@@ -220,35 +222,168 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
         }
         public ActionResult Register()
         {
+            
+                return View();
+            
+            
+        }
+        public ActionResult RegisterUser(RESIDENT RESIDENTS)
+        {
+            var Status = false;
+
+            using (var db = new BookingScheduleManagementDBEntities())
+            {
+                RESIDENTS.Group_Id = 1;
+                RESIDENTS.Is_Admin = false;
+                db.RESIDENTS.Add(RESIDENTS);
+                db.SaveChanges();
+
+                Status = true;
+            }
+
+            
+            return RedirectToAction("Login", "Login");
+        }
+        public ActionResult Group()
+        {
             if (Session["Resident_Id"] != null)
             {
-                // Retrieve the Resident_Id from the session
+
                 residentId = (int)Session["Resident_Id"];
+                ViewBag.ResidentId = residentId;
+
+            }
+
+            
+            return View();
+
+        }
+        // GET: Home/GetResidentId
+        [HttpPost]
+        public ActionResult GetResidentId()
+        {
+            try
+            {
+                // Retrieve the resident ID from the session
+                int residentId = (int)Session["Resident_Id"];
+                return Json(new { success = true, residentId });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Failed to get resident ID: " + ex.Message });
+            }
+        }
+        // POST: Group/Create
+        [HttpPost]
+        public ActionResult Create(GROUP group)
+        {
+            if (ModelState.IsValid)
+            {
+                dc.GROUPs.Add(group);
+                dc.SaveChanges();
+
+                // Update Is_Admin column in RESIDENTS table
+                int residentId = (int)Session["Resident_Id"];
                 var resident = dc.RESIDENTS.FirstOrDefault(r => r.Resident_Id == residentId);
-                if (resident == null)
+                if (resident != null)
                 {
-                    return HttpNotFound();
+                    resident.Is_Admin = true;
+                    resident.Group_Id = group.Group_Id;
+                    dc.SaveChanges(); // Save the changes to the RESIDENTS table
                 }
 
-                var details = dc.RESIDENTS
-     .Join(dc.ROOMS, cs => cs.Room_Id, r => r.Room_Id,
-         (cs, r) => new { cs, r })
-     .Join(dc.FLOORS, fs => fs.r.Floor_Id, f => f.Floor_Id,
-         (joinedData, f) => new { joinedData.cs, joinedData.r, f })
-     .Join(dc.BUILDINGS, bs => bs.f.Building_Id, b => b.Building_Id,
-         (joinedData, b) => new { joinedData.cs, joinedData.r, joinedData.f, b })
-     .Select(joinedData => new
-     {
-         joinedData.cs.Full_Name,
-         joinedData.cs.Contact_No,
-         joinedData.cs.Email,
-         ResidentName = (joinedData.cs.Resident_Id != 0) ? "No Name to Display" : joinedData.cs.Full_Name
-     })
-     .ToList();
-
-                return View(details);
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Login", "Login");
+            return View(group);
+        }
+
+
+        // POST: Group/Search
+        [HttpPost]
+        public ActionResult Search(string email)
+        {
+            using (var db = new BookingScheduleManagementDBEntities())
+            {
+                // Query residents based on email
+                var residents = db.RESIDENTS
+                                   .Where(r => r.Email.Contains(email))
+                                   .Select(r => new
+                                   {
+                                       r.Resident_Id,
+                                       r.Full_Name,
+                                       r.Contact_No,
+                                       r.Email
+                                   })
+                                   .ToList();
+
+                return Json(residents);
+            }
+        }
+        [HttpPost]
+        public ActionResult AddUserToGroup(int residentId, int groupId)
+        {
+            try
+            {
+                // Find the resident and group
+                var resident = dc.RESIDENTS.Find(residentId);
+                var group = dc.GROUPs.Find(groupId);
+
+                if (resident != null && group != null)
+                {
+                    // Update the resident's group id
+                    resident.Group_Id = groupId;
+
+                    // Save changes to the database
+                    dc.SaveChanges();
+
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Resident or group not found." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred: " + ex.Message });
+            }
+        }
+        [HttpPost]
+        public JsonResult GetGroupData(int residentId)
+        {
+            try
+            {
+                // Check if the resident is an admin
+                var resident = dc.RESIDENTS.Find(residentId);
+                if (resident != null && resident.Is_Admin)
+                {
+                    // Get group data if group ID is not equal to 1
+                    var groupData = dc.GROUPs.Where(g => g.Group_Id != 1).ToList();
+                    return Json(new { success = true, groupData });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Only admins can view group data." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred: " + ex.Message });
+            }
+        }
+
+        // POST: Group/AddMember
+        [HttpPost]
+        public ActionResult AddMember(int groupId, int residentId)
+        {
+            var resident = dc.RESIDENTS.Find(residentId);
+            if (resident != null)
+            {
+                resident.Group_Id = groupId;
+                dc.SaveChanges();
+                return Json(new { success = true });
+            }
+            return Json(new { success = false });
         }
     }
 }

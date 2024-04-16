@@ -17,19 +17,13 @@ namespace CleaningScheduleBokkingManagementSystem
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GROUP()
         {
-            this.CLEANING_AREA = new HashSet<CLEANING_AREA>();
             this.RESIDENTS = new HashSet<RESIDENT>();
-            this.ROOMS = new HashSet<ROOM>();
         }
     
         public int Group_Id { get; set; }
         public string Group_Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CLEANING_AREA> CLEANING_AREA { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RESIDENT> RESIDENTS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ROOM> ROOMS { get; set; }
     }
 }

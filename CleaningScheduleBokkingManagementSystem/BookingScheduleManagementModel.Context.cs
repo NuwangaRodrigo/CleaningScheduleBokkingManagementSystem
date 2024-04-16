@@ -13,10 +13,10 @@ namespace CleaningScheduleBokkingManagementSystem
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BookingScheduleManagementSystemEntities2 : DbContext
+    public partial class BookingScheduleManagementDBEntities : DbContext
     {
-        public BookingScheduleManagementSystemEntities2()
-            : base("name=BookingScheduleManagementSystemEntities2")
+        public BookingScheduleManagementDBEntities()
+            : base("name=BookingScheduleManagementDBEntities")
         {
         }
     
@@ -25,13 +25,8 @@ namespace CleaningScheduleBokkingManagementSystem
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<BUILDING> BUILDINGS { get; set; }
-        public virtual DbSet<CLEANING_AREA> CLEANING_AREA { get; set; }
-        public virtual DbSet<CleaningSchedule> CleaningSchedules { get; set; }
-        public virtual DbSet<FLOOR> FLOORS { get; set; }
-        public virtual DbSet<GROUP> GROUPS { get; set; }
+        public virtual DbSet<CLEANINGSCHEDULE> CLEANINGSCHEDULEs { get; set; }
+        public virtual DbSet<GROUP> GROUPs { get; set; }
         public virtual DbSet<RESIDENT> RESIDENTS { get; set; }
-        public virtual DbSet<ROOM> ROOMS { get; set; }
-        public virtual DbSet<USER> USERS { get; set; }
     }
 }

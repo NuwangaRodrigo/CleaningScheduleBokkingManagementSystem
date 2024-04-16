@@ -8,7 +8,7 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
 {
     public class LoginController : Controller
     {
-        BookingScheduleManagementSystemEntities2 db = new BookingScheduleManagementSystemEntities2();
+        BookingScheduleManagementDBEntities db = new BookingScheduleManagementDBEntities();
         public int userId;
         // GET: Login
         public ActionResult Login()
@@ -16,10 +16,10 @@ namespace CleaningScheduleBokkingManagementSystem.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult LoginUser(USER e)
+        public ActionResult LoginUser(RESIDENT e)
         {
-            var user = db.USERS.Where(x => x.User_Name == e.User_Name && x.Password == e.Password).Count();
-            var user_id = db.USERS.FirstOrDefault(x => x.User_Name == e.User_Name && x.Password == e.Password);
+            var user = db.RESIDENTS.Where(x => x.Email == e.Email && x.Password == e.Password).Count();
+            var user_id = db.RESIDENTS.FirstOrDefault(x => x.Email == e.Email && x.Password == e.Password);
             if (user > 0 && user_id != null)
             {
                 userId = user_id.Resident_Id;

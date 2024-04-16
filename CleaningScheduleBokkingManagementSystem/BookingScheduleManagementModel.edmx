@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BookingScheduleManagementDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CLEANINGSCHEDULE">
+          <Key>
+            <PropertyRef Name="WeekNumber" />
+            <PropertyRef Name="SlotNumber" />
+          </Key>
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="SlotNumber" Type="int" Nullable="false" />
+          <Property Name="Resident_Id" Type="int" />
+          <Property Name="Start_Date" Type="datetime" />
+          <Property Name="End_Date" Type="datetime" />
+          <Property Name="Is_Cleaned" Type="bit" />
+          <Property Name="Is_Verified" Type="bit" />
+          <Property Name="Theme_Colour" Type="nvarchar" MaxLength="10" />
+          <Property Name="Is_FullDay" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GROUP">
+          <Key>
+            <PropertyRef Name="Group_Id" />
+          </Key>
+          <Property Name="Group_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Group_Name" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="RESIDENTS">
+          <Key>
+            <PropertyRef Name="Resident_Id" />
+          </Key>
+          <Property Name="Resident_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Full_Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Contact_No" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Group_Id" Type="int" Nullable="false" />
+          <Property Name="Is_Admin" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CLEANINGS__Resid__412EB0B6">
+          <End Role="RESIDENTS" Type="Self.RESIDENTS" Multiplicity="0..1" />
+          <End Role="CLEANINGSCHEDULE" Type="Self.CLEANINGSCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RESIDENTS">
+              <PropertyRef Name="Resident_Id" />
+            </Principal>
+            <Dependent Role="CLEANINGSCHEDULE">
+              <PropertyRef Name="Resident_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESIDENTS__Group__3C69FB99">
+          <End Role="GROUP" Type="Self.GROUP" Multiplicity="1" />
+          <End Role="RESIDENTS" Type="Self.RESIDENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GROUP">
+              <PropertyRef Name="Group_Id" />
+            </Principal>
+            <Dependent Role="RESIDENTS">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookingScheduleManagementDBModelStoreContainer">
+          <EntitySet Name="CLEANINGSCHEDULE" EntityType="Self.CLEANINGSCHEDULE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GROUP" EntityType="Self.GROUP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RESIDENTS" EntityType="Self.RESIDENTS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CLEANINGS__Resid__412EB0B6" Association="Self.FK__CLEANINGS__Resid__412EB0B6">
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+            <End Role="CLEANINGSCHEDULE" EntitySet="CLEANINGSCHEDULE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESIDENTS__Group__3C69FB99" Association="Self.FK__RESIDENTS__Group__3C69FB99">
+            <End Role="GROUP" EntitySet="GROUP" />
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BookingScheduleManagementDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CLEANINGSCHEDULE">
+          <Key>
+            <PropertyRef Name="WeekNumber" />
+            <PropertyRef Name="SlotNumber" />
+          </Key>
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="SlotNumber" Type="Int32" Nullable="false" />
+          <Property Name="Resident_Id" Type="Int32" />
+          <Property Name="Start_Date" Type="DateTime" Precision="3" />
+          <Property Name="End_Date" Type="DateTime" Precision="3" />
+          <Property Name="Is_Cleaned" Type="Boolean" />
+          <Property Name="Is_Verified" Type="Boolean" />
+          <Property Name="Theme_Colour" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Is_FullDay" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RESIDENT" Relationship="Self.FK__CLEANINGS__Resid__412EB0B6" FromRole="CLEANINGSCHEDULE" ToRole="RESIDENTS" />
+        </EntityType>
+        <EntityType Name="GROUP">
+          <Key>
+            <PropertyRef Name="Group_Id" />
+          </Key>
+          <Property Name="Group_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Group_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RESIDENTS" Relationship="Self.FK__RESIDENTS__Group__3C69FB99" FromRole="GROUP" ToRole="RESIDENTS" />
+        </EntityType>
+        <EntityType Name="RESIDENT">
+          <Key>
+            <PropertyRef Name="Resident_Id" />
+          </Key>
+          <Property Name="Resident_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Full_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contact_No" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Group_Id" Type="Int32" Nullable="false" />
+          <Property Name="Is_Admin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CLEANINGSCHEDULEs" Relationship="Self.FK__CLEANINGS__Resid__412EB0B6" FromRole="RESIDENTS" ToRole="CLEANINGSCHEDULE" />
+          <NavigationProperty Name="GROUP" Relationship="Self.FK__RESIDENTS__Group__3C69FB99" FromRole="RESIDENTS" ToRole="GROUP" />
+        </EntityType>
+        <Association Name="FK__CLEANINGS__Resid__412EB0B6">
+          <End Role="RESIDENTS" Type="Self.RESIDENT" Multiplicity="0..1" />
+          <End Role="CLEANINGSCHEDULE" Type="Self.CLEANINGSCHEDULE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RESIDENTS">
+              <PropertyRef Name="Resident_Id" />
+            </Principal>
+            <Dependent Role="CLEANINGSCHEDULE">
+              <PropertyRef Name="Resident_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RESIDENTS__Group__3C69FB99">
+          <End Role="GROUP" Type="Self.GROUP" Multiplicity="1" />
+          <End Role="RESIDENTS" Type="Self.RESIDENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GROUP">
+              <PropertyRef Name="Group_Id" />
+            </Principal>
+            <Dependent Role="RESIDENTS">
+              <PropertyRef Name="Group_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookingScheduleManagementDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CLEANINGSCHEDULEs" EntityType="Self.CLEANINGSCHEDULE" />
+          <EntitySet Name="GROUPs" EntityType="Self.GROUP" />
+          <EntitySet Name="RESIDENTS" EntityType="Self.RESIDENT" />
+          <AssociationSet Name="FK__CLEANINGS__Resid__412EB0B6" Association="Self.FK__CLEANINGS__Resid__412EB0B6">
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+            <End Role="CLEANINGSCHEDULE" EntitySet="CLEANINGSCHEDULEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RESIDENTS__Group__3C69FB99" Association="Self.FK__RESIDENTS__Group__3C69FB99">
+            <End Role="GROUP" EntitySet="GROUPs" />
+            <End Role="RESIDENTS" EntitySet="RESIDENTS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BookingScheduleManagementDBModelStoreContainer" CdmEntityContainer="BookingScheduleManagementDBEntities">
+          <EntitySetMapping Name="CLEANINGSCHEDULEs">
+            <EntityTypeMapping TypeName="BookingScheduleManagementDBModel.CLEANINGSCHEDULE">
+              <MappingFragment StoreEntitySet="CLEANINGSCHEDULE">
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="SlotNumber" ColumnName="SlotNumber" />
+                <ScalarProperty Name="Resident_Id" ColumnName="Resident_Id" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Is_Cleaned" ColumnName="Is_Cleaned" />
+                <ScalarProperty Name="Is_Verified" ColumnName="Is_Verified" />
+                <ScalarProperty Name="Theme_Colour" ColumnName="Theme_Colour" />
+                <ScalarProperty Name="Is_FullDay" ColumnName="Is_FullDay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GROUPs">
+            <EntityTypeMapping TypeName="BookingScheduleManagementDBModel.GROUP">
+              <MappingFragment StoreEntitySet="GROUP">
+                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
+                <ScalarProperty Name="Group_Name" ColumnName="Group_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RESIDENTS">
+            <EntityTypeMapping TypeName="BookingScheduleManagementDBModel.RESIDENT">
+              <MappingFragment StoreEntitySet="RESIDENTS">
+                <ScalarProperty Name="Resident_Id" ColumnName="Resident_Id" />
+                <ScalarProperty Name="Full_Name" ColumnName="Full_Name" />
+                <ScalarProperty Name="Contact_No" ColumnName="Contact_No" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
+                <ScalarProperty Name="Is_Admin" ColumnName="Is_Admin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

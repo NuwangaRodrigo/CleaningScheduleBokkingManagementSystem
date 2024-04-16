@@ -1,4 +1,4 @@
-﻿@model CleaningScheduleBokkingManagementSystem.USER
+﻿@model CleaningScheduleBokkingManagementSystem.RESIDENT
     @{
     ViewBag.Title = "Login";
 
@@ -77,7 +77,7 @@
             <input type="hidden" name="__RequestVerificationToken" value="your-anti-forgery-token-here" />
             <div>
                 <label for="username">Username</label>
-                <input type="text" id="username" name="User_Name" placeholder="Enter your username" required>
+                <input type="text" id="username" name="Email" placeholder="Enter your username" required>
             </div>
             <div>
                 <label for="password">Password</label>
@@ -86,7 +86,7 @@
             <div>
                 <input type="submit" value="Login">
                 <br />
-                <input type="submit" value="Register" onclick="window.location.href='/Register'">
+                <input type="submit" value="Register" onclick="window.location.href='/Home/Register'">
             </div>
         </form>
     </div>

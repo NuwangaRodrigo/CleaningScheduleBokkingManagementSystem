@@ -1,99 +1,175 @@
-﻿@model List<CleaningScheduleBokkingManagementSystem.Models.UserDetailsViewModel>
+﻿
 @{
     ViewBag.Title = "Group";
 
 }
-
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Information</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Create Group and Add Members</title>
 </head>
 <body>
-    
-    <style>
-        body {
-            font-family: Tahoma, sans-serif;
-            background-color: black;
-            background-size: cover;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 690px;
-            width: 1200px;
-        }
+    <h2>Create Group</h2>
+    <form id="createGroupForm">
+        <div>
+            <label for="Group_Name">Group Name</label>
+            <input type="text" id="Group_Name" placeholder="Enter group name" required>
+            <span class="validation-message" id="group_name_error"></span>
+        </div>
+        <button type="submit">Create Group</button>
+    </form>
 
-        .container {
-            background-color: #1b1b1b;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 1000px;
-            color: white;
-            margin-top: 50px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid white; 
-        }
-
-        th {
-            background-color: navy; 
-        }
-
-        tr:nth-child(even) {
-            background-color: #003366; 
-        }
-
-        tr:nth-child(odd) {
-            background-color: #002147; 
-        }
-
-        th, td {
-            color: white; 
-        }
-    </style>
-</body>
-    <div class="container">
-        <h2>Group Information</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Full Name</th>
-                    <th>Contact No</th>
-                    <th>Room Number</th>
-                
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model)
-                {
-                    <tr>
-                        <td>@user.FullName</td>
-                        <td>@user.ContactNo</td>
-                        <td>@user.RoomNumber</td>
-                        
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <h2>Search People by Email</h2>
+    <div>
+        <input type="text" id="email" placeholder="Enter email" />
+        <button id="searchBtn">Search</button>
     </div>
 
+    <h2>Search Results</h2>
+    <ul id="searchResults"></ul>
+
+    <h2>Selected Users</h2>
+    <ul id="selectedUsers"></ul>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            // Make an AJAX call to the controller action to get the resident ID
+            $.post({
+                url: "/Home/GetResidentId",
+                success: function (response) {
+                    var residentId = response.residentId;
+                    if (residentId) {
+                        // Check if the user is admin and get group data if group ID is not equal to 1
+                        $.post({
+                            url: "/Group/GetGroupData",
+                            data: { residentId: residentId },
+                            success: function (response) {
+                                if (response.success) {
+                                    var groupData = response.groupData;
+                                    if (groupData.length > 0) {
+                                        var groupName = groupData[0].Group_Name;
+                                        $("#Group_Name").val(groupName);
+                                    }
+                                } else {
+                                    alert(response.message);
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error getting group data:", error);
+                                alert("Failed to get group data. Please try again later.");
+                            }
+                        });
+                    } else {
+                        alert("Resident ID not found.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error getting resident ID:", error);
+                    alert("Failed to get resident ID. Please try again later.");
+                }
+            });
+        });
+
+
+
+        $(document).ready(function () {
+            // Function to handle form submission to create a group
+            $("#createGroupForm").submit(function (event) {
+                event.preventDefault();
+                var groupName = $("#Group_Name").val();
+
+                if (groupName && groupName.trim() !== "") {
+                    // Perform AJAX request to create a group
+                    $.post({
+                        url: "/Home/Create",
+                        data: { Group_Name: groupName },
+                        success: function (response) {
+                            // Handle success response
+                            alert("Group created successfully!");
+                            // You can redirect to another page or perform other actions here
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle error response
+                            console.error("Error creating group:", error);
+                            alert("Failed to create group. Please try again later.");
+                        }
+                    });
+                } else {
+                    // Show error message for empty group name
+                    $("#group_name_error").text("Please enter a group name.");
+                }
+            });
+
+            // Function to handle search for users by email
+            $("#searchBtn").click(function () {
+                var email = $("#email").val();
+                // Perform AJAX request to search for users
+                $.post({
+                    url: "/Home/Search",
+                    data: { email: email },
+                    success: function (data) {
+                        // Handle success response
+                        updateSearchResults(data);
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        console.error("Error searching users:", error);
+                        alert("Failed to search for users. Please try again later.");
+                    }
+                });
+            });
+
+            // Function to handle adding a user to the group
+            function addUserToGroup(residentId, groupId) {
+                // Perform AJAX request to add the user to the group
+                $.post({
+                    url: "/Home/AddUserToGroup",
+                    data: { residentId: residentId, groupId: groupId },
+                    success: function (response) {
+                        if (response.success) {
+                            alert("User added to group successfully.");
+                            // Optionally, you can update the UI or reload the page here
+                        } else {
+                            alert("Failed to add user to group.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+
+                        alert("Failed to add user to group. Please try again later.");
+                    }
+                });
+            }
+
+            // Function to handle the click event of the "Add to Group" button
+            $(document).on("click", ".add-to-group-btn", function () {
+                var $button = $(this);
+                var residentId = $button.data("resident-id");
+                var groupId = $button.data("group-id");
+                addUserToGroup(residentId, groupId);
+            });
+
+
+            // Function to update the search results
+            function updateSearchResults(data) {
+                var $searchResults = $("#searchResults");
+                $searchResults.empty(); // Clear previous search results
+                if (data.length === 0) {
+                    $searchResults.append("<li>No users found.</li>");
+                } else {
+                    $.each(data, function (index, user) {
+                        var $li = $("<li>").text(user.Full_Name + " - " + user.Email);
+                        var $button = $("<button>").text("Add to Group").addClass("add-to-group-btn");
+                        // Set data attributes for resident ID and group ID
+                        $button.data("resident-id", user.Resident_Id);
+                        $button.data("group-id", user.Group_Id);
+                        $li.append($button);
+                        $searchResults.append($li);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
 </html>
-
-
