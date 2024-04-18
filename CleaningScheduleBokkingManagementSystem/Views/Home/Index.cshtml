@@ -9,22 +9,34 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
     <style>
         body {
-            font-family: Tahoma, sans-serif;
+            /*            font-family: Tahoma, sans-serif;
             background-color: #1b1b1b;
             background-size: cover;
-            background-repeat: no-repeat;
+            background: url(/Images/calendar2.jpg) no-repeat center center fixed;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 650px;
-            width: 1200px;
+            height: 630px;
+            width: 1200px;*/
+
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0px;
+            display: flex;
+            align-items: center;
+            min-height: 95vh;
+            max-height: 650px;
+            background: url(/Images/calendar2.jpg) no-repeat center center fixed; /* Full background picture */
+            background-size: cover;
+            width: 1300px;
+            height: 600px
         }
 
-        .navbar {
-            background-color: #1b1b1b; /* Navbar background color */
-        }
+        /*.navbar {
+            background-color: #1b1b1b;*/ /* Navbar background color */
+        /*}*/
 
         .navbar-nav li a {
             color: white !important; /* Navbar link color */
@@ -35,7 +47,6 @@
             }
 
         .navbar-nav li {
-            display: #1b1b1b;
             text-align: center;
             padding: 10px;
         }
@@ -51,31 +62,35 @@
             margin-right: 10px;
             margin-top: 10px;
             width: 1050px;
-            
+            height:600px;
+            background-color: rgba(27, 27, 27, 0.8);
         }
 
         #calendar {
-            background-color: #1b1b1b; 
-            color: white; 
-            margin-top: 10px; 
-            border-radius: 10px; 
+            color: white;
+            margin-top: 10px;
+            border-radius: 10px;
             padding: 10px;
+           /* background-color: rgba(27, 27, 27, 0.8);*/ /* Form background color with opacity */
         }
 
         .menu-container {
-            background-color: #1b1b1b; /* Background color for the menu container */
-            padding: 10px; /* Add padding to the menu container */
-            border-radius: 10px; /* Add border radius to the menu container */
-
-            width: 120px; /* Set the width of the menu container */
-            height: 650px;
-            align-content: flex-end;
+            width: 185px;
+            min-height: 60vh;
+            max-height: 500px;
+            padding: 10px;
+            border-radius: 10px;
+            margin-right: 10px;
+            margin-top: 10px;
+/*            background-color: rgba(27, 27, 27, 0.8);*/
         }
 
         .profile-photo {
             width: 100px; /* Adjust the size of the profile photo */
             height: 100px;
             border-radius: 50%; /* Make it circular */
+            border-color:black;
+            border-width:2px;
             margin-bottom: 20px;
             text-align: center; /* Add space below the photo */
         }
@@ -83,7 +98,8 @@
         .profile-name {
             margin-bottom: 20px; /* Add space below the name */
             font-size: 20px;
-            color: white;
+            color: black;
+            font-weight:bold;
             text-align: left; /* Text color */
         }
 
@@ -95,62 +111,71 @@
         }
 
         .nav-item {
-            margin-bottom: 10px; /* Add space between items */
+            margin-bottom: 0px; /* Add space between items */
         }
 
         .nav-link {
-            color: white !important; /* Link color */
+            color: black !important; /* Link color */
+            font-weight: bold;
+            font-size: 18px;
         }
 
             .nav-link:hover {
                 color: #337ab7 !important; /* Link color on hover */
             }
+
+        .h2 {
+
+            text-align:center;
+        }
+
+
     </style>
 </head>
 <body>
-    
-        <div class="container-fluid">
-            <div class="row">
-                
-                <div class="col-md-2">
-                    <div class="menu-container">
-                        
-                        <div class="text-left">
-                            <img src="~/Images/ProfilePhoto.png" alt="Profile Photo" class="profile-photo">
-                            <br /><br />
-                        </div>
-                        <div class="profile-name">John Doe</div>
-                        <br /><br /><br /><br />
-                        <ul class="menu-nav">
-                            <li class="nav-item" align="left">
-                                @Html.ActionLink("Register", "Register", "Home", null, new { @class = "nav-link" })
-                            </li>
-                            <br />
-                            <li class="nav-item" align="left">
-                                @Html.ActionLink("Group", "Group", "Home", null, new { @class = "nav-link" })
-                            </li>
-                            <br />
 
-                            <li class="nav-item" align="left">
-                                @Html.ActionLink("Log Out", "LogOut", "Home", null, new { @class = "nav-link" })
-                            </li>
-                            <br />
+    <div class="container-fluid">
+        <div class="row row-mr-2" >
 
-                        </ul>
+            <div class="col-md-2">
+                <div class="menu-container">
+                    <br /><br /><br /><br /><br /><br />
+                    <div class="text-left">
+                        <img src="~/Images/ProfilePhoto.png" alt="Profile Photo" class="profile-photo">
+                        <br /><br />
                     </div>
-                </div>
-                <br />
-                <h2 class="text-white">Book Now Your Slot</h2>
-                <div class="col-md-9">
-                    <div id="calendar-container">
+                    <div class="profile-name">John Doe</div>
+                    <br /><br /><br /><br />
+                    <ul class="menu-nav">
+                        <li class="nav-item" align="left">
+                            @Html.ActionLink("Schedule", "Index", "Home", null, new { @class = "nav-link" })
+                        </li>
+                        <br />
+                        <li class="nav-item" align="left">
+                            @Html.ActionLink("Group", "Group", "Home", null, new { @class = "nav-link" })
+                        </li>
+                        <br />
 
-                        <div id="calendar"></div>
-                    </div>
+                        <li class="nav-item" align="left">
+                            @Html.ActionLink("Log Out", "Login", "Login", null, new { @class = "nav-link" })
+                        </li>
+                        <br />
+
+                    </ul>
                 </div>
             </div>
+            <br />
+            <h3 class="text-white">Book Now Your Slot</h3>
+            <div class="col-md-9">
+                <div id="calendar-container">
+
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-   
+
 
     <div id="MyModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -250,7 +275,7 @@
             }
 
             $('#btnEdit').click(function () {
-                console.log(selectedEvent.description);
+
                 if (selectedEvent != null) {
                     if (selectedEvent.description == 'Choose a slot') {
                         $.ajax({
@@ -280,7 +305,7 @@
 
 
             $('#btnDelete').click(function () {
-              
+
                 if (selectedEvent != null && confirm('Are you sure?')) {
                     $.ajax({
                         type: "POST",
@@ -292,7 +317,7 @@
                                 // Refresh calendar
                                 FetchScheduleAndRenderCalendar();
                                 $(document).ready(function () {
-                                 
+
                                     $('#MyModal').modal('hide');
                                 });
                             }
@@ -309,3 +334,5 @@
 
 </body>
 </html>
+
+

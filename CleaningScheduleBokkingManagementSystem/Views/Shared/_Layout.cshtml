@@ -2,25 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     <title>Schedule Planing</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
     <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
     <style>
-        body, html {
-            padding: 10px;
-            border-radius: 10px;
-            font-family: Tahoma, sans-serif;
-            background-color: #1b1b1b;
-            /*background-size: cover;*/
-            background-repeat: no-repeat;
-            margin: auto; /* Center horizontally */
+        body
+        {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
-            justify-content: Center;
-            align-items: center;
-            height: 690px;
-            width: 1200px;
+            align-items: stretch;
+            min-height: 95vh;
+            background: no-repeat center center fixed; /* Full background picture */
+            background-size: 100%;
+            background-size: cover;
         }
 
         
@@ -31,10 +29,10 @@
     
     <div class="container body-content">
         @RenderBody()
-        <hr />
+        @*<hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year -All rights received by team yellow</p>
-        </footer>
+            <p>&copy; @DateTime.Now.Year -All rights received by team Yellow</p>
+        </footer>*@
     </div>
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>

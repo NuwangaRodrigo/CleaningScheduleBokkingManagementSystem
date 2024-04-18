@@ -12,7 +12,7 @@ namespace CleaningScheduleBokkingManagementSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class CleaningSchedule
+    public partial class CLEANINGSCHEDULE
     {
         public int WeekNumber { get; set; }
         public int SlotNumber { get; set; }

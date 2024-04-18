@@ -1,95 +1,135 @@
-﻿@model CleaningScheduleBokkingManagementSystem.USER
-    @{
-    ViewBag.Title = "Login";
-
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login</title>
+    <title>Login Page</title>
     <style>
-       
         body {
-            font-family: Tahoma, sans-serif;
-            background-color: black;
-            background-size: cover;
-            background-image: url(/Images/bgimage.png);
-            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            align-items: stretch;
+            min-height: 100vh;
+            background: url(/Images/login9.jpg) no-repeat center center fixed; /* Full background picture */
+            background-size: 100%;
+            background-size: cover;
+        }
+
+        .left-side {
+            flex: 1;
+            background-image: url('../behind_form_background.jpg'); /* Background image behind the form */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .right-side {
+            flex: 1;
+            display: flex;
+            justify-content: right;
             align-items: center;
-            height: 690px;
-            width: 1200px;
+            padding-left:80px;
+            padding-top:5%;
+            padding-bottom:5%;
+            margin-top: 65px;
         }
 
-        .container {
-            background-color: black;
-            /*padding: 10px;
-            border-radius: 10px;
-            margin-right: 10px;
-            margin-top: 10px;*/
-            opacity: 0.9;
-            height: 400px;
-            width: 350px;
+        .form {
+            max-width: 700px; /* Adjust as needed */
+            padding: 30px;
+            background-color: rgba(52, 73, 94, 0.6); /* Form background color with opacity */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
-        input[type="text"],
-        input[type="password"],
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: transparent;
-            color: #0059FF;
-            cursor: pointer;
-            border: 1px solid #0059FF;
-        }
-
-            input[type="submit"]:hover {
-                background-color: #0059FF;
+            .form h2 {
+                text-align: center;
+                margin-bottom: 20px;
                 color: white;
             }
 
-        input[type="text"]::placeholder,
-        input[type="password"]::placeholder {
-            color: #1b1b1b;
+        .form-group {
+            margin-bottom: 20px;
+            color: white;
         }
+
+            .form-group label {
+                display: inline-block; /* Changed display property */
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: white;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                color: black;
+                box-sizing: border-box;
+            }
+
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            background: #388e3c;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: white;
+        }
+
+            .form-footer a {
+                text-decoration: none;
+                color: #007bff;
+            }
+
+                .form-footer a:hover {
+                    text-decoration: underline;
+                }
     </style>
 </head>
-
 <body>
-
-    <div class="container">
-        <h2>User Login</h2>
-     
-        <div id="errorMessage" style="color: red; display: none;"></div>
-        <form id="loginForm" action="/Login/LoginUser" method="post">
-            <input type="hidden" name="__RequestVerificationToken" value="your-anti-forgery-token-here" />
-            <div>
-                <label for="username">Username</label>
-                <input type="text" id="username" name="User_Name" placeholder="Enter your username" required>
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="Password" placeholder="Enter your password" required>
-            </div>
-            <div>
-                <input type="submit" value="Login">
+    <div class="left-side"></div>
+    <div class="right-side">
+        <div class="form">
+            <h2>Login</h2>
+            <div id="errorMessage" style="color: red; display: none;"></div>
+            <form id="loginForm" action="/Login/LoginUser" method="post">
+                <input type="hidden" name="__RequestVerificationToken" value="your-anti-forgery-token-here" />
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="Email" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="Password" placeholder="Enter your password" required>
+                </div>
                 <br />
-                <input type="submit" value="Register" onclick="window.location.href='/Register'">
-            </div>
-        </form>
+                <button type="submit" class="btn-primary" value="Login">Login</button>
+                <div class="form-footer">
+
+                    <span>Don't have an account? </span>
+                    <button type="submit" class="btn-primary" value="Register" onclick="window.location.href='/Home/Register'">Register</button>
+
+                </div>
+            </form>
+        </div>
     </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -99,7 +139,7 @@
                     if (response.errorMessage) {
                         $('#errorMessage').text(response.errorMessage).show(); // Display error message
                     } else {
-                        // Redirect to home page 
+                        // Redirect to home page
                         window.location.href = '/Home/Index';
                     }
                 });

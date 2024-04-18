@@ -1,4 +1,5 @@
-﻿<html lang="en">
+﻿﻿
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,44 +12,56 @@
             display: flex;
             align-items: stretch;
             min-height: 100vh;
+            max-height: 610px;
+            background: url(/Images/register1.jpg) no-repeat center center fixed; /* Full background picture */
+            background-size: cover;
         }
 
         .left-side {
             flex: 1;
-            background-image: url('.jpg'); /* Your image URL */
+            background-image: url('');
             background-size: cover;
             background-position: center;
+            text-align: center;
+
         }
 
         .right-side {
             flex: 1;
             display: flex;
-            justify-content: center;
+            justify-content: right;
             align-items: center;
-            padding: 20px;
+            padding: 0px;
+            margin-left:600px;
+            margin-top:20px;
         }
 
         .registration-form {
-            max-width: 800px;
-            padding: 60px;
-            background-color: #fff;
+            max-width: 1200px; /* Increased max-width */
+            padding: 50px; /* Increased padding */
+            background-color: rgba(52, 73, 94, 0.7); /* Form background color with opacity */
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: auto;
         }
 
             .registration-form h2 {
                 text-align: center;
                 margin-bottom: 20px;
+                color: white;
+                font-weight: bold;
             }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            color: white;
         }
 
             .form-group label {
-                display: block;
+                display: inline-block; /* Changed display property */
                 font-weight: bold;
                 margin-bottom: 5px;
+                color: white;
             }
 
             .form-group input {
@@ -56,12 +69,14 @@
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
+                color: black;
             }
 
         .btn-primary {
             width: 100%;
             padding: 10px;
-            background-color: #007bff;
+            background: #34495e;
+            background: #388e3c;
             border: none;
             border-radius: 5px;
             color: #fff;
@@ -86,10 +101,41 @@
                 .form-footer a:hover {
                     text-decoration: underline;
                 }
+
+        .left-side h3 {
+            /* Add styles for the h3 heading */
+            text-align: center;
+            color: #34495e; /* Example color */
+            font-size: 30px;
+            margin-bottom: 20px;
+            font-style: italic;
+            font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, serif;
+            color: #295f4e;
+        }
+
+        .left-side p {
+            /* Add styles for the paragraph */
+            font-size: 22px;
+            line-height: 1.5;
+            color: white; /* Example color */
+            text-align: center;
+            padding: 60px;
+            background-color: rgba(52, 73, 94, 0.5);
+            border-radius: 20px;
+            padding: -30px;
+            font-weight: bold;
+            font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, serif;
+        }
     </style>
 </head>
 <body>
-    <div class="left-side"></div>
+    <div class="left-side">
+
+        @*<div class="left-side"><h3>Clean, Green, Serene: Where Apartment Living Meets Peace of Mind...!</h3></div>
+        <div class="left-side"><p>Welcome to our apartment cleaning scheduling system! Say goodbye to the hassle of organizing cleaning rotations. With our intuitive shift calendar, you can easily assign yourself to flexible cleaning shifts within the rotation, ensuring that every corner of the apartment gets the attention it deserves. 
+            Keep track of the cleaning progress effortlessly, as everyone can monitor the cleaning status and contribute to maintaining a pristine living space. Our platform promotes transparency and accountability, allowing for seamless coordination among residents. Join us in fostering a clean and comfortable environment for all!</p></div>*@
+
+    </div>
     <div class="right-side">
         <div class="registration-form">
             <h2>Register</h2>
@@ -98,9 +144,10 @@
                     <label for="name">Name</label>
                     <input type="text" id="Full_Name" name="Full_Name" placeholder="Enter your name">
                 </div>
+
                 <div class="form-group">
                     <label for="name">Phone Number</label>
-                    <input type="text" id="Contact_No" name="Contact_No" placeholder="Enter your name">
+                    <input type="text" id="Contact_No" name="Contact_No" placeholder="Enter your mobile number">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -116,10 +163,21 @@
                 </div>
                 <button type="submit" class="btn-primary">Register</button>
                 <div class="form-footer">
-                    <span>Already have an account? <a href="login2.html">Login</a></span>
+
                 </div>
             </form>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            // Event handler for the register button
+            $('#registerBtn').click(function () {
+                // Navigate to the registration page
+                window.location.href = '/Register'; // Replace 'RegistrationPageUrl' with the actual URL of your registration page
+            });
+        });
+    </script>
 </body>
 </html>
+
+

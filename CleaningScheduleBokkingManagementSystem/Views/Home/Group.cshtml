@@ -1,7 +1,6 @@
-﻿@model List<CleaningScheduleBokkingManagementSystem.Models.UserDetailsViewModel>
+﻿@model CleaningScheduleBokkingManagementSystem.RESIDENT
 @{
-    ViewBag.Title = "Group";
-
+    ViewBag.Title = "GROUP";
 }
 
 <!DOCTYPE html>
@@ -9,91 +8,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Information</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
-    
+    <title>Create Group</title>
     <style>
         body {
-            font-family: Tahoma, sans-serif;
-            background-color: black;
-            background-size: cover;
-            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 690px;
-            width: 1200px;
+            height: 100vh; /* Adjusted height to fit screen */
+            background-image: url(/Images/group1.jpg); /* Background image */
+            background-size: cover;
+            background-position: center;
         }
 
-        .container {
-            background-color: #1b1b1b;
-            padding: 20px;
+        .con {
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            margin-top: 20px;
+            background-color: rgba(52, 73, 94, 0.9); /* Transparent background */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: black; /* Text color */
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: calc(50% - 40px);
+            padding: 10px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 1000px;
-            color: white;
-            margin-top: 50px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.8); /* Form input background color */
+            color: #34495e; /* Form input text color */
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background: #388e3c; /* Button background color */
+            border: none;
+            border-radius: 5px;
+            color: white; /* Button text color */
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+
+        .search-results {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            color: black; /* Table text color */
         }
 
         th, td {
-            padding: 10px;
+            border: 1px solid #ddd;
+            padding: 8px;
             text-align: left;
-            border-bottom: 1px solid white; 
         }
 
         th {
-            background-color: navy; 
+            background-color: #f2f2f2;
         }
 
-        tr:nth-child(even) {
-            background-color: #003366; 
+        .form-buttons {
+            text-align: left; /* Align buttons to the left */
+            margin-top: 20px;
         }
 
-        tr:nth-child(odd) {
-            background-color: #002147; 
-        }
-
-        th, td {
-            color: white; 
-        }
+            .form-buttons button {
+                margin: 0 5px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
     </style>
-</body>
-    <div class="container">
-        <h2>Group Information</h2>
-        <table>
+</head>
+
+<body>
+
+    <div class="con">
+        <h2>Create Group</h2>
+        <form id="createGroupForm">
+            <div>
+                <label for="groupName">Group Name</label>
+                <input type="text" id="Group_Name" name="Group_Name" placeholder="Enter group name" required>
+                <button type="submit">Create Group</button>
+            </div>
+        </form>
+
+        <h2>Search People by Email</h2>
+        <form id="searchForm">
+            <div>
+                <label for="searchEmail">Email</label>
+                <input type="text" id="searchEmail" name="Email" placeholder="Enter email" required>
+
+                <button type="submit">Search</button>
+            </div>
+        </form>
+
+        <h2>Group Members</h2>
+        <table id="groupMembers">
             <thead>
                 <tr>
-                    <th>Full Name</th>
-                    <th>Contact No</th>
-                    <th>Room Number</th>
-                
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact Details</th>
+                    <th>Action</th>
+
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in Model)
-                {
-                    <tr>
-                        <td>@user.FullName</td>
-                        <td>@user.ContactNo</td>
-                        <td>@user.RoomNumber</td>
-                        
-                    </tr>
-                }
-            </tbody>
-        </table>
+                @*<tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        <div class="form-buttons">
+
+                        <button class="btn-primary">Add</button>
+                        <button class="btn-primary">Remove</button>
+
+                        </div>
+                    </th>
+
+                </tr>*@
+    <!-- Members will be dynamically added here -->
+    </tbody>
+    </table>
+
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+
+        $(document).on('click', '.removeMemberBtn', function () {
+            var residentId = $(this).data('resident-id');
+
+            var button = $(this); // Store reference to the button for later use
+
+            $.post('/Home/Delete', { residentId: residentId })
+                .done(function (response) {
+                    console.log(response);
+                    if (response && response.success) {
+                        alert('Successfully removed member from the group.');
+
+                    } else {
+
+                        alert('Failed to remove member from the group.');
+                    }
+                })
+                .fail(function () {
+                    // Error message in case of AJAX failure
+                    alert('Failed to remove member from the group.');
+                })
+                .always(function () {
+                    // Reload the page after completion, whether success or failure
+                    window.location.reload();
+                });
+        });
+
+
+
+
+
+        $(document).ready(function () {
+            // Handling form submission for creating a group
+            $('#createGroupForm').submit(function (event) {
+                event.preventDefault(); // Prevent form submission
+                $.post('/Home/Create', $(this).serialize(), function (response) {
+                    if (response && response.success) {
+                        alert('Group created successfully.');
+                    } else {
+                        alert('Fialed to created successfully.');
+                    }
+                });
+            });
+
+            // Handling form submission for searching people by email
+            $(document).ready(function () {
+                // Handling form submission for searching people by email
+                $('#searchForm').submit(function (event) {
+                    event.preventDefault(); // Prevent form submission
+
+                    $.post('/Home/Search', $(this).serialize(), function (response) {
+                        // Handle the response
+                        console.log(response);
+                        if (response.success) {
+                            var isAdmin = response.isAdmin;
+                            if (isAdmin) {
+                                // Process search results
+                                if (response.residents && response.residents.length > 0) {
+                                    $('#groupMembers tbody').empty(); // Clear previous search results
+                                    $.each(response.residents, function (index, member) {
+                                        var row = '<tr>' +
+                                            '<td>' + member.Full_Name + '</td>' +
+                                            '<td>' + member.Email + '</td>' +
+                                            '<td>' + member.Contact_No + '</td>' +
+                                            '<td><button class="addMemberBtn" data-resident-id="' + member.Resident_Id + '">Add</button></td>' +
+                                            '</tr>';
+                                        $('#groupMembers tbody').append(row);
+                                    });
+                                } else {
+                                    alert('No users found.');
+                                }
+                            } else {
+                                // If the user is not an admin, display an alert
+                                alert('You are not authorized to perform this action.');
+                            }
+                        } else {
+                            alert('Failed to search users: ' + response.message);
+                        }
+                    }).fail(function () {
+                        // Error handling in case of AJAX failure
+                        alert('An error occurred while searching users.');
+                    });
+                });
+            });
+
+
+
+
+            // Handling click event for adding a member to the group
+            $(document).on('click', '.addMemberBtn', function () {
+                var residentId = $(this).data('resident-id');
+                // Perform AJAX request to add the user to the group
+                $.post('/Home/AddMember', { residentId: residentId }, function (response) {
+                    // Handle the response
+                    console.log(response);
+                    if (response && response.success) {
+                        alert('Failed to add member to the group.');
+                    } else {
+                        // Check if a message is returned from the backend
+                        if (response && response.message) {
+                            // Display the message in an alert
+                            alert(response.message);
+                        }
+                        $('#groupMembers tbody').empty();
+
+                        // Iterate over each member in the response and add them to the grid view
+                        $.each(response.members, function (index, member) {
+                            var memberRow = '<tr>' +
+                                '<td>' + member.Full_Name + '</td>' +
+                                '<td>' + member.Email + '</td>' +
+                                '<td>' + member.Contact_No + '</td>' +
+                                '<td><button class="addMemberBtn" data-resident-id="' + member.Resident_Id + '">Add</button></td>' +
+                                '</tr>';
+                            $('#groupMembers tbody').append(memberRow);
+                        });
+
+                        window.location.reload();
+                    }
+                }).fail(function (xhr, status, error) {
+                    // Handle AJAX failure
+                    alert('Failed to add member to the group. Error: ' + error);
+                });
+            });
+
+            $(document).ready(function () {
+                // Load the group name when the page is ready
+                $.get('/Home/LoadGroupName', function (response) {
+                    if (response.success) {
+                        // Populate the input field with the retrieved group name
+                        $("#Group_Name").val(response.groupName);
+                    } else {
+                        // Handle any errors or display a default value if necessary
+                        alert('Failed to load group name.');
+                    }
+                });
+            });
+
+            $(document).ready(function () {
+                // Load group members when the page loads
+                $.get('/home/GetGroupMembers', function (response) {
+                    if (response.success) {
+                        // Check if the user is an admin
+                        var isAdmin = response.isAdmin;
+
+                        $.each(response.members, function (index, member) {
+                            var memberRow = '<tr>' +
+                                '<td>' + member.Full_Name + '</td>' +
+                                '<td>' + member.Email + '</td>' +
+                                '<td>' + member.Contact_No + '</td>';
+
+                            // Add Remove button only if the user is an admin
+                            if (isAdmin) {
+                                memberRow += '<td><button class="removeMemberBtn" data-resident-id="' + member.Resident_Id + '">Remove</button></td>';
+                            } else {
+                                // If the user is not an admin, disable the entire row
+                                memberRow = '<tr disabled>' +
+                                    '<td>' + member.Full_Name + '</td>' +
+                                    '<td>' + member.Email + '</td>' +
+                                    '<td>' + member.Contact_No + '</td>' +
+                                    '<td><button class="removeMemberBtn" data-resident-id="' + member.Resident_Id + '" disabled>Remove</button></td>' +
+                                    '</tr>';
+                            }
+
+                            $('#groupMembers tbody').append(memberRow);
+                        });
+                    } else {
+                        alert('Failed to load group members.');
+                    }
+                });
+            });
+
+
+
+
+        });
+    </script>
+
+</body>
 </html>
-
-
